@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.preference.PreferenceManager
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -31,6 +32,7 @@ class LoadActivity : AppCompatActivity() {
     lateinit var load_vm: LoadViewModel
 
     lateinit var load_info: TextView
+    lateinit var progress_bar: ProgressBar
 
     //usecases
     val permissions=Permissions()
@@ -41,16 +43,17 @@ class LoadActivity : AppCompatActivity() {
         setContentView(R.layout.activity_load)
 
         load_info = findViewById(R.id.load_info)
+        progress_bar = findViewById(R.id.progressBar)
 
         load_vm = ViewModelProvider(this,LoadViewModelFactory(this)).get(LoadViewModel::class.java)
         load_vm.progressStringLive.observe(this, Observer {
             load_info.text = it
         })
-        load_vm.progressLive.observe(this, Observer {
-            //connect with progress bar
-        })
         load_vm.progressMaxLive.observe(this, Observer {
-            //connect with progress bar
+            progress_bar.max=it
+        })
+        load_vm.progressLive.observe(this, Observer {
+            progress_bar.progress=it
         })
 
         Toast.makeText(this, "u open", Toast.LENGTH_SHORT).show()

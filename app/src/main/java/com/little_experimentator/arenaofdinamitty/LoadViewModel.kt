@@ -58,6 +58,7 @@ class LoadViewModel(load:Load): ViewModel() {
         inputStream.read(digit, 0, 4)
         var l = BigInteger(digit).toInt() + 2
 
+        progressStringLive.value="Get list of files..."
         progressMaxLive.value=l
         progressLive.value=l
         //generate text for progressStringLive
@@ -79,13 +80,19 @@ class LoadViewModel(load:Load): ViewModel() {
             progressLive.value=l
         }
 
+        progressStringLive.value="Download files..."
+        progressMaxLive.value=file.readLines().size//later check it
+        progressLive.value=file.readLines().size
+
         for (line in file.readLines()) {
             var downloading_file = File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                 line
             )
-            if (downloading_file.exists()) break//later check full downloading
+            if (downloading_file.exists()) {progressLive.value=progressLive.value!!-1;break}//later check full downloading
             //else
+
+            progressStringLive.value="Download $line"
             downloading_file.createNewFile()
             dout.writeUTF(line)
             dout.flush()
@@ -102,8 +109,9 @@ class LoadViewModel(load:Load): ViewModel() {
                 }
                 downloading_file.appendBytes(buf)
                 l -= num_read
-                progressLive.value=l
             }
+            progressLive.value=progressLive.value!!-1
+        }
 
             //closing
             dout.writeUTF("finished")//send server we funished downloading
@@ -120,7 +128,7 @@ class LoadViewModel(load:Load): ViewModel() {
             load.isFinished()
 
         }
-    }
+
 
     override fun onCleared() {
         super.onCleared()
