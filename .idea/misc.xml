@@ -3,11 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/besum/Documents/ArenaofDinamitty3/app/src/main/res/layout/activity_fight.xml" value="0.1" />
+        <entry key="..\:/Users/besum/Documents/ArenaofDinamitty3/app/src/main/res/layout/activity_fight.xml" value="0.25" />
+        <entry key="..\:/Users/besum/Documents/ArenaofDinamitty3/app/src/main/res/layout/activity_fight_load.xml" value="0.1" />
         <entry key="..\:/Users/besum/Documents/ArenaofDinamitty3/app/src/main/res/layout/activity_fight_setting.xml" value="0.1" />
         <entry key="..\:/Users/besum/Documents/ArenaofDinamitty3/app/src/main/res/layout/activity_load.xml" value="0.1" />
         <entry key="..\:/Users/besum/Documents/ArenaofDinamitty3/app/src/main/res/layout/activity_menu.xml" value="0.1" />
         <entry key="..\:/Users/besum/Documents/ArenaofDinamitty3/app/src/main/res/layout/activity_warrior_list.xml" value="0.1" />
+        <entry key="..\:/Users/besum/Documents/ArenaofDinamitty3/app/src/main/res/layout/layout_warrior_icon.xml" value="0.1" />
       </map>
     </option>
   </component>

@@ -41,6 +41,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    //noinspection GradleCompatible
+    //implementation 'com.android.support:cardview-v7:28.0.0'
+    //implementation 'androidx.recycleview:recycleview:1.2.1'
+    //implementation 'androidx.recycleview:recycleview-selection:1.1.0'
     def lifecicle_version="2.4.0-alpha03"
     implementation "androidx.lifecicle:lifecicle-viewmodel-ktx:$lifecicle_version"
     implementation "androidx.lifecicle:lifecicle-livedata-ktx:$lifecicle_version"
