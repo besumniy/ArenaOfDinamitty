@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.lifecycle.Observer
@@ -24,6 +25,7 @@ class FightSettingActivity : AppCompatActivity() {
     lateinit var scroll_layout: LinearLayout
     lateinit var recycler_warriors: RecyclerView
     lateinit var choosen_warrior_img: ImageView
+    lateinit var server_ip: EditText
 
     lateinit var layoutManager:RecyclerView.LayoutManager
     //lateinit var adapter:RecyclerView.Adapter<WarriorIconAdapter.ViewHolder>
@@ -42,6 +44,7 @@ class FightSettingActivity : AppCompatActivity() {
         scroll_layout=findViewById(R.id.scroll_layout)
         recycler_warriors=findViewById(R.id.warriors)
         choosen_warrior_img=findViewById(R.id.choosenWarrior)
+        server_ip=findViewById(R.id.serverIp)
 
         layoutManager=LinearLayoutManager(this)
         /*adapter=WarriorIconAdapter(this,
@@ -53,16 +56,16 @@ class FightSettingActivity : AppCompatActivity() {
         fs_vm.choosenWarriorLive.observe(this, Observer {
             choosen_warrior_img.setImageBitmap(BitmapFactory.decodeFile(it))
         })
-
-
         fs_vm.adapterLive.observe(this,{
             recycler_warriors.adapter=it
         })
 
+        fs_vm.initiateAdapter(this)
         //listOfWarriors.generate(this,scroll_layout,::onClick)//can i move it to viewmodel??? must to check it later
 
         button_fight.setOnClickListener {
-            startActivity(Intent(this,FightLoadActivity::class.java))
+            fs_vm.findFight(this,server_ip.text.toString())//check how clear is it
+            //startActivity(Intent(this,FightLoadActivity::class.java))
         }
 
 
