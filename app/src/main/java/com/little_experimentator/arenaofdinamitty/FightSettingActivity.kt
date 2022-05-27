@@ -22,7 +22,7 @@ class FightSettingActivity : AppCompatActivity() {
     lateinit var fs_vm: FightSettingViewModel
 
     lateinit var button_fight: Button
-    lateinit var scroll_layout: LinearLayout
+    //lateinit var scroll_layout: LinearLayout
     lateinit var recycler_warriors: RecyclerView
     lateinit var choosen_warrior_img: ImageView
     lateinit var server_ip: EditText
@@ -41,7 +41,7 @@ class FightSettingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fight_setting)
 
         button_fight=findViewById(R.id.button_fight)
-        scroll_layout=findViewById(R.id.scroll_layout)
+        //scroll_layout=findViewById(R.id.scroll_layout)
         recycler_warriors=findViewById(R.id.warriors)
         choosen_warrior_img=findViewById(R.id.choosenWarrior)
         server_ip=findViewById(R.id.serverIp)

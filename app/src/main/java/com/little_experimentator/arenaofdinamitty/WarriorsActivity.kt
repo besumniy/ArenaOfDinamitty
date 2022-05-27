@@ -14,7 +14,7 @@ import java.util.Observer
 class WarriorsActivity : AppCompatActivity() {
     lateinit var w_vm: WarriorsViewModel
 
-    lateinit var scroll_layout: LinearLayout
+    //lateinit var scroll_layout: LinearLayout
     lateinit var recycler_warriors: RecyclerView
     lateinit var choosen_warrior_img: ImageView
 
@@ -26,7 +26,7 @@ class WarriorsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_warriors)
 
-        scroll_layout=findViewById(R.id.scroll_layout)
+        //scroll_layout=findViewById(R.id.scroll_layout)
         recycler_warriors=findViewById(R.id.warriors)
         choosen_warrior_img=findViewById(R.id.choosenWarrior)
 
