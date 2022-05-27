@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.preference.PreferenceManager
-import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
@@ -44,7 +43,7 @@ class WarriorListActivity : AppCompatActivity() {
         //create icons of warriors
         var warriors= File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//images//minions").listFiles()
         var i=0
-        for (warrior in warriors){//
+        for(warrior in warriors){//
             if(warrior.path.indexOf(".")==-1){//
                 add_icon(warrior.path,i)
                 i++}
@@ -64,7 +63,7 @@ class WarriorListActivity : AppCompatActivity() {
             editor.putString("warrior", name)
             editor.putString("adres",adr.text.toString())
             editor.apply()
-            startActivity(Intent(this, FightActivity::class.java))
+            startActivity(Intent(this, FightActivityOld::class.java))
         }
 
         main_layout.addView(new_view)

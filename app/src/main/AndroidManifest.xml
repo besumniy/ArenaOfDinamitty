@@ -29,7 +29,7 @@
             android:name=".MenuActivity"
             android:screenOrientation="landscape"/>
         <activity
-            android:name=".FightActivity"
+            android:name=".FightActivityOld"
             android:screenOrientation="landscape" />
         <activity
             android:name=".WarriorListActivity"

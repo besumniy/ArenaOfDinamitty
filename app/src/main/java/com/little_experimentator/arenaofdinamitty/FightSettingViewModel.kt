@@ -39,11 +39,12 @@ class FightSettingViewModel:ViewModel() {
         this.name=name
         choosenWarriorLive.value=name+"/head.png"
         //later need update this logic
+
     }
 
     fun findFight(context:Context,ip:String){
         var job= GlobalScope.launch(Dispatchers.IO) {//later create activity scope?
-            var socket = Socket(ip, 8080)//make variable for port
+            var socket = Socket(ip, 8081)//make variable for port
             var dout = DataOutputStream(socket.getOutputStream())
             var inputStream = socket.getInputStream()
 

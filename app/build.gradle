@@ -7,6 +7,10 @@ android {
     compileSdkVersion 31
     buildToolsVersion "29.0.3"
 
+    lintOptions{
+        checkReleaseBuilds false
+    }
+
     defaultConfig {
         applicationId "com.little_experimentator.arenaofdinamitty"
         minSdkVersion 16
@@ -14,8 +18,9 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
 
     buildTypes {
         release {
@@ -46,8 +51,8 @@ dependencies {
     //implementation 'androidx.recycleview:recycleview:1.2.1'
     //implementation 'androidx.recycleview:recycleview-selection:1.1.0'
     def lifecicle_version="2.4.0-alpha03"
-    implementation "androidx.lifecicle:lifecicle-viewmodel-ktx:$lifecicle_version"
-    implementation "androidx.lifecicle:lifecicle-livedata-ktx:$lifecicle_version"
+    //implementation "androidx.lifecicle:lifecicle-viewmodel-ktx:$lifecicle_version"
+    //implementation "androidx.lifecicle:lifecicle-livedata-ktx:$lifecicle_version"
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

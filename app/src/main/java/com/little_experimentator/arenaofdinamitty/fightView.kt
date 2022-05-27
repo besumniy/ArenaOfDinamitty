@@ -2,7 +2,6 @@ package com.little_experimentator.arenaofdinamitty
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -10,11 +9,8 @@ import android.os.Build
 import android.os.Environment
 import android.util.AttributeSet
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.graphics.toColor
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -33,13 +29,20 @@ class fightView: View {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     constructor(context: Context):super(context) {
+        side_width=((width-height*1.5)/3.0).toInt()
+        icon_size=side_width
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    constructor(context: Context, attrs: AttributeSet):super(context,attrs) {}
+    constructor(context: Context, attrs: AttributeSet):super(context,attrs) {
+        side_width=((width-height*1.5)/3.0).toInt()
+        icon_size=side_width
+    }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     constructor(context: Context, attrs: AttributeSet, defStyle:Int):super(context, attrs, defStyle) {
+        side_width=((width-height*1.5)/3.0).toInt()
+        icon_size=side_width
     }
 
 

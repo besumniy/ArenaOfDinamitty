@@ -2,7 +2,6 @@ package com.little_experimentator.arenaofdinamitty
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.os.Environment
 import android.preference.PreferenceManager
 import androidx.lifecycle.MutableLiveData
@@ -36,7 +35,7 @@ class FightLoadViewModel: ViewModel() {
             val log=File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"/sources/log.txt")
             log.createNewFile()
             log.writeText(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"/sources/images/minions/$enemy\n")
-            if (file.exists()) {log.appendText("is exist\n");context.startActivity(Intent(context,FightActivity::class.java))}
+            if (file.exists()) {log.appendText("is exist\n");context.startActivity(Intent(context,FightActivityOld::class.java))}
             else {log.appendText("need create\n");
                 file.mkdir()
                 //Toast.makeText(this, "so what the problem?", Toast.LENGTH_SHORT).show()
@@ -103,7 +102,15 @@ class FightLoadViewModel: ViewModel() {
                     log.writeText("$name\n")
                 }
 
-                context.startActivity(Intent(context,FightActivity::class.java))}
+                message=JSONObject()
+                message.put("c","ready")
+                val log=File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"/sources/log.txt")
+                //log.appendText("sended\n")
+                dout.writeUTF(message.toString())
+                dout.flush()
+                //log.appendText(""+scale)
+                log.appendText("sended\n")
+                context.startActivity(Intent(context,FightActivityOld::class.java))}
     }}
 
 }

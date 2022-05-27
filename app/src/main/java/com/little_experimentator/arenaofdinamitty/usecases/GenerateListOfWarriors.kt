@@ -4,7 +4,6 @@ import android.app.Activity
 import android.os.Environment
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.little_experimentator.arenaofdinamitty.FightActivity
 import java.io.File
 
 class GenerateListOfWarriors {

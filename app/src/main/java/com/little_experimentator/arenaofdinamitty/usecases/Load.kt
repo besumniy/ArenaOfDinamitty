@@ -1,11 +1,10 @@
 package com.little_experimentator.arenaofdinamitty.usecases
 
 import android.app.Activity
-import android.content.Context
-import com.little_experimentator.arenaofdinamitty.WarriorListActivity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import com.little_experimentator.arenaofdinamitty.MenuActivity
 
 class Load(activity: Activity) {
     val activity=activity
@@ -32,7 +31,7 @@ class Load(activity: Activity) {
 
 
     fun isFinished(){
-        activity.startActivity(Intent(activity, WarriorListActivity::class.java))
+        activity.startActivity(Intent(activity, MenuActivity::class.java))
         activity.finish()
 
 
