@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.little_experimentator.arenaofdinamitty.R
 import java.io.File
@@ -31,6 +32,7 @@ class WarriorIconAdapter(val context: Context, val items:Array<File>,function:(n
         //name=warriors.get(position).name
 
         holder.itemImage.setImageBitmap(BitmapFactory.decodeFile(name+"/head.png"))
+        holder.itemName.text=name
 
         //var new_view= ImageView(activity)
         //new_view.setScaleType(ImageView.ScaleType.FIT_XY)
@@ -51,9 +53,12 @@ class WarriorIconAdapter(val context: Context, val items:Array<File>,function:(n
 
     inner class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         var itemImage:ImageView
+        var itemName: TextView
 
         init{
+            //super(itemView)
             itemImage=itemView.findViewById(R.id.image)
+            itemName=itemView.findViewById(R.id.name)
         }
     }
 
