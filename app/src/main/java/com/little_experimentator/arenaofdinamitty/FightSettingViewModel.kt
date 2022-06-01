@@ -30,14 +30,15 @@ class FightSettingViewModel:ViewModel() {
             File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//images//minions").listFiles(),
             ::onClick
         )
+
     }
-    fun onClick(name:String):Unit{
-        changeChoosenWarrior(name)
+    fun onClick(name:String,path:String):Unit{
+        changeChoosenWarrior(name,path)
     }
 
-    fun changeChoosenWarrior(name:String){
+    fun changeChoosenWarrior(name:String,path:String){
         this.name=name
-        choosenWarriorLive.value=name+"/head.png"
+        choosenWarriorLive.value=path+"/head.png"
         //later need update this logic
 
     }

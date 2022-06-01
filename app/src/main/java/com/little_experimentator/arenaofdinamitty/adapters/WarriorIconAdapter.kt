@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.little_experimentator.arenaofdinamitty.R
 import java.io.File
 
-class WarriorIconAdapter(val context: Context, val items:Array<File>,function:(name:String)->Unit): RecyclerView.Adapter<WarriorIconAdapter.ViewHolder>() {
+class WarriorIconAdapter(val context: Context, val items:Array<File>,function:(name:String, path:String)->Unit): RecyclerView.Adapter<WarriorIconAdapter.ViewHolder>() {
     var warriors= File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//images//minions").listFiles()
     var function=function
 
@@ -29,9 +29,10 @@ class WarriorIconAdapter(val context: Context, val items:Array<File>,function:(n
 
     override fun onBindViewHolder(holder: WarriorIconAdapter.ViewHolder, position: Int) {
         var name=items.get(position).name
+        var path=items.get(position).path
         //name=warriors.get(position).name
 
-        holder.itemImage.setImageBitmap(BitmapFactory.decodeFile(name+"/head.png"))
+        holder.itemImage.setImageBitmap(BitmapFactory.decodeFile(path+"/head.png"))
         holder.itemName.text=name
 
         //var new_view= ImageView(activity)
@@ -42,7 +43,7 @@ class WarriorIconAdapter(val context: Context, val items:Array<File>,function:(n
         //new_view.setScaleType(ImageView.ScaleType.FIT_XY)
 
         holder.itemImage.setOnClickListener {
-            function(name)
+            function(name,path)
         }
 
     }

@@ -46,11 +46,8 @@ class FightSettingActivity : AppCompatActivity() {
         choosen_warrior_img=findViewById(R.id.choosenWarrior)
         server_ip=findViewById(R.id.serverIp)
 
-        layoutManager=LinearLayoutManager(this)
-        /*adapter=WarriorIconAdapter(this,
-            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//images//minions").listFiles(),
-            ::onClick
-        )*/
+        layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        recycler_warriors.layoutManager=layoutManager
 
         fs_vm = ViewModelProvider(this).get(FightSettingViewModel::class.java)
         fs_vm.choosenWarriorLive.observe(this, Observer {
