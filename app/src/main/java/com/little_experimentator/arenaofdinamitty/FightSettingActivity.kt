@@ -19,6 +19,8 @@ import com.little_experimentator.arenaofdinamitty.usecases.Screen
 import java.io.File
 
 class FightSettingActivity : AppCompatActivity() {
+    var clickable=true
+
     lateinit var fs_vm: FightSettingViewModel
 
     lateinit var button_fight: Button
@@ -50,6 +52,13 @@ class FightSettingActivity : AppCompatActivity() {
         recycler_warriors.layoutManager=layoutManager
 
         fs_vm = ViewModelProvider(this).get(FightSettingViewModel::class.java)
+        fs_vm.clickableLive.observe(this,{
+            clickable=it
+            button_fight.isEnabled = it
+        })
+        fs_vm.buttonTextLive.observe(this,{
+            button_fight.text=it
+        })
         fs_vm.choosenWarriorLive.observe(this, Observer {
             choosen_warrior_img.setImageBitmap(BitmapFactory.decodeFile(it))
         })
@@ -57,7 +66,7 @@ class FightSettingActivity : AppCompatActivity() {
             recycler_warriors.adapter=it
         })
 
-        fs_vm.initiateAdapter(this)
+        fs_vm.init(this)
         //listOfWarriors.generate(this,scroll_layout,::onClick)//can i move it to viewmodel??? must to check it later
 
         button_fight.setOnClickListener {

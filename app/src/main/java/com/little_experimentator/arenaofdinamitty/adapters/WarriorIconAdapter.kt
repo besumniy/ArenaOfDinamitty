@@ -13,8 +13,9 @@ import com.little_experimentator.arenaofdinamitty.R
 import java.io.File
 
 class WarriorIconAdapter(val context: Context, val items:Array<File>,function:(name:String, path:String)->Unit): RecyclerView.Adapter<WarriorIconAdapter.ViewHolder>() {
-    var warriors= File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//images//minions").listFiles()
+    //var warriors= File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//images//minions").listFiles()
     var function=function
+    //val saving_items=items///this is boolshit i will fix it later
 
 
     override fun onCreateViewHolder(

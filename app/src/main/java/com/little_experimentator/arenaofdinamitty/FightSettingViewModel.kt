@@ -22,18 +22,29 @@ import java.net.Socket
 class FightSettingViewModel:ViewModel() {
     val choosenWarriorLive= MutableLiveData<String>()
     val adapterLive=MutableLiveData<RecyclerView.Adapter<WarriorIconAdapter.ViewHolder>>()
+    val buttonTextLive=MutableLiveData<String>()
+    val clickableLive=MutableLiveData<Boolean>()
 
     var name=""
+    lateinit var warriors:Array<File>
+
+    fun init(context: Context){
+        clickableLive.value=true
+        buttonTextLive.value="FIND VICTIM"
+        choosenWarriorLive.value=warriors.get(0).name
+        warriors=File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//images//minions").listFiles()
+        initiateAdapter(context)
+    }
 
     fun initiateAdapter(context: Context){
         adapterLive.value=WarriorIconAdapter(context,
-            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//images//minions").listFiles(),
+            warriors,
             ::onClick
         )
 
     }
     fun onClick(name:String,path:String):Unit{
-        changeChoosenWarrior(name,path)
+        if(clickableLive.value!!)changeChoosenWarrior(name,path)
     }
 
     fun changeChoosenWarrior(name:String,path:String){
@@ -68,9 +79,12 @@ class FightSettingViewModel:ViewModel() {
             send.put("h",height)
             send.put("w",width)
             dout.writeUTF(send.toString())
+            dout.flush()
+
+            buttonTextLive.value="search"
+            clickableLive.value=false
 
 
-            /*
             //get info about enemies warrior
             //later update
             //need to add timer and if-else
@@ -86,9 +100,16 @@ class FightSettingViewModel:ViewModel() {
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
             val editor = pref.edit()
             editor.putString("ip", ip)
-            editor.putString("enemy", enemy)
+            editor.putString("enemy", enemy)//
+            editor.putString("ownWarrior",name)//
             editor.apply()
-            */
+
+            //if time out:
+            /*
+            clickableLive.value=True
+            buttonTextLive.value="FIND VICTIMS"
+            * */
+
 
             //oh now i understand i need do more hard thing
             //i need create manager for this shit .. ?
