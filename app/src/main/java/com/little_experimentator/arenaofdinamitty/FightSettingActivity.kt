@@ -62,6 +62,7 @@ class FightSettingActivity : AppCompatActivity() {
 
         button_fight.setOnClickListener {
             fs_vm.findFight(this,server_ip.text.toString())//check how clear is it
+            //context.startActivity(Intent(context,FightLoadActivity::class.java))
             //startActivity(Intent(this,FightLoadActivity::class.java))
         }
 

@@ -69,6 +69,8 @@ class FightSettingViewModel:ViewModel() {
             send.put("w",width)
             dout.writeUTF(send.toString())
 
+
+            /*
             //get info about enemies warrior
             //later update
             //need to add timer and if-else
@@ -86,12 +88,15 @@ class FightSettingViewModel:ViewModel() {
             editor.putString("ip", ip)
             editor.putString("enemy", enemy)
             editor.apply()
+            */
 
             //oh now i understand i need do more hard thing
             //i need create manager for this shit .. ?
             //but now i continue write this shit
 
             context.startActivity(Intent(context,FightLoadActivity::class.java))
+            //comment cuz i not shure that this clear
+            //or no commemt
         }
     }
 }
