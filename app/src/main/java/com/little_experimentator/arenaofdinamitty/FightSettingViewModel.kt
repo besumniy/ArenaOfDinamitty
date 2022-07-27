@@ -31,8 +31,8 @@ class FightSettingViewModel:ViewModel() {
     fun init(context: Context){
         clickableLive.value=true
         buttonTextLive.value="FIND VICTIM"
-        choosenWarriorLive.value=warriors.get(0).name
         warriors=File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//images//minions").listFiles()
+        choosenWarriorLive.value=warriors.get(0).path+"/head.png"
         initiateAdapter(context)
     }
 
@@ -55,6 +55,8 @@ class FightSettingViewModel:ViewModel() {
     }
 
     fun findFight(context:Context,ip:String){
+        buttonTextLive.value="searching"
+        clickableLive.value=false
         var job= GlobalScope.launch(Dispatchers.IO) {//later create activity scope?
             var socket = Socket(ip, 8081)//make variable for port
             var dout = DataOutputStream(socket.getOutputStream())
@@ -80,9 +82,6 @@ class FightSettingViewModel:ViewModel() {
             send.put("w",width)
             dout.writeUTF(send.toString())
             dout.flush()
-
-            buttonTextLive.value="search"
-            clickableLive.value=false
 
 
             //get info about enemies warrior
