@@ -13,28 +13,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ArenaOfDinamitty">
+        <service
+            android:name=".services.WebService"
+            android:enabled="true"
+            android:exported="false"></service>
+
         <activity
             android:name=".ShopActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".WarriorsActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".FightLoadActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".FightSettingActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".MenuActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".FightActivityOld"
             android:screenOrientation="landscape" />
         <activity
             android:name=".WarriorListActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".LoadActivity"
+        <activity
+            android:name=".LoadActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

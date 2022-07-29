@@ -24,9 +24,9 @@ class FightLoadViewModel: ViewModel() {
         var job= GlobalScope.launch(Dispatchers.IO) {//later create activity scope?
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
             var ip=pref.getString("ip", "")
-            var enemy=pref.getString("ip", "")
+            var enemy=pref.getString("enemy", "")
 
-            var socket = Socket(ip, 8080)//make variable for port
+            var socket = Socket(ip, 8081)//make variable for port
             var dout = DataOutputStream(socket.getOutputStream())
             var inputStream = socket.getInputStream()
 
