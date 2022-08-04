@@ -59,6 +59,9 @@ class FightSettingActivity : AppCompatActivity() {
         fs_vm.buttonTextLive.observe(this,{
             button_fight.text=it
         })
+        fs_vm.serverIpLive.observe(this,{
+            server_ip.setText(it)
+        })
         fs_vm.choosenWarriorLive.observe(this, Observer {
             choosen_warrior_img.setImageBitmap(BitmapFactory.decodeFile(it))
         })

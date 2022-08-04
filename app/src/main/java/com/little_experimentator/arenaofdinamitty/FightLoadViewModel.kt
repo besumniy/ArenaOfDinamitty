@@ -1,11 +1,15 @@
 package com.little_experimentator.arenaofdinamitty
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Environment
+import android.os.IBinder
 import android.preference.PreferenceManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.little_experimentator.arenaofdinamitty.services.WebService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -20,15 +24,21 @@ class FightLoadViewModel: ViewModel() {
     var progressMaxLive= MutableLiveData<Int>()
     val progressStringLive= MutableLiveData<String>()
 
+    lateinit var webService:WebService
+
     fun load( context: Context){
         var job= GlobalScope.launch(Dispatchers.IO) {//later create activity scope?
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
-            var ip=pref.getString("ip", "")
             var enemy=pref.getString("enemy", "")
 
-            var socket = Socket(ip, 8081)//make variable for port
+            //start service
+            var intent = Intent(context, WebService::class.java)
+            //context.startService(intent)
+            context.bindService(intent,WebServiceConnection, Context.BIND_AUTO_CREATE)
+
+            /*var socket = Socket(ip, 8081)//make variable for port
             var dout = DataOutputStream(socket.getOutputStream())
-            var inputStream = socket.getInputStream()
+            var inputStream = socket.getInputStream()*/
 
             //need send id of fight
             val file= File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"/sources/images/minions/"+enemy)//?
@@ -43,17 +53,18 @@ class FightLoadViewModel: ViewModel() {
                 //send name of warrior for download sources for it
                 var message = JSONObject()
                 message.put("c", enemy)
-                dout.writeUTF(message.toString())
-                dout.flush()
+                var name = webService.makeRequestShort(message.toString())
+                //dout.writeUTF(message.toString())
+                //dout.flush()
 
                 //get sources
-                var digit = ByteArray(4)
+                /*var digit = ByteArray(4)
                 inputStream.read(digit, 0, 4)
                 var l = BigInteger(digit).toInt()
                 var name = "";
                 var name_b = ByteArray(l);
                 inputStream.read(name_b, 0, l)
-                name = name_b.decodeToString()
+                name = name_b.decodeToString()*/
                 //dout.writeUTF("ok")
                 //dout.flush()
                 while (name != "finshed") {
@@ -62,12 +73,14 @@ class FightLoadViewModel: ViewModel() {
                     var downloading_file =
                         File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/" + name)
 
-                    if(name.contains(".")) {
+                    if(name.contains("."))
 
 
                         if (downloading_file.exists()) break//maybe modificate
                         //else
                         downloading_file.createNewFile()
+
+                    //in future make request
 
                         var digit = ByteArray(4)
                         inputStream.read(digit, 0, 4)
@@ -106,11 +119,22 @@ class FightLoadViewModel: ViewModel() {
                 message.put("c","ready")
                 val log=File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"/sources/log.txt")
                 //log.appendText("sended\n")
-                dout.writeUTF(message.toString())
-                dout.flush()
+                //dout.writeUTF(message.toString())
+                //dout.flush()
+                webSocket.makeRequest(message)
                 //log.appendText(""+scale)
                 log.appendText("sended\n")
                 context.startActivity(Intent(context,FightActivityOld::class.java))}
-    }}
+    }
+
+    var WebServiceConnection=ServiceConnection(){
+        override fun onServiceConnected(name:ComponentName,service:IBinder){
+            var myBinder:WebService.WebServiceBinder=service
+            webService=myBinder.getService()
+        }
+    }
 
 }
+
+
+
