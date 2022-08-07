@@ -43,10 +43,14 @@ class FightSettingViewModel:ViewModel() {
         choosenWarriorLive.value=warriors.get(0).path+"/head.png"
         initiateAdapter(context)
 
-        WebServiceConnection = ServiceConnection(){
+        WebServiceConnection = object:ServiceConnection{
             override fun onServiceConnected(name: ComponentName, service: IBinder){
-                var myBinder:WebService.WebServiceBinder=service
+                var myBinder:WebService.WebServiceBinder=service as WebService.WebServiceBinder
                 webService=myBinder.getService()
+            }
+
+            override fun onServiceDisconnected(name: ComponentName?) {
+                TODO("Not yet implemented")
             }
         }
     }

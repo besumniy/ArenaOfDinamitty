@@ -19,9 +19,7 @@ class WebService : Service() {
     lateinit var dout : DataOutputStream
     lateinit var inputStream : InputStream
 
-    override fun onBind(intent: Intent): IBinder {
-        return this.binder
-    }
+
 
 
     override fun onCreate(){
@@ -62,10 +60,45 @@ class WebService : Service() {
         dout.flush()
     }
 
-        class WebServiceBinder(): Binder() {
-            fun getService():WebService{
-                return WebService.this
+    fun getMessage():String{
+        var digit = ByteArray(4)
+        inputStream.read(digit, 0, 4)
+        var l = BigInteger(digit).toInt()
+        var answer_b = ByteArray(l)
+        inputStream.read(answer_b,0,l)
+        return answer_b.decodeToString()
+    }
+
+    fun downloadFile(size:Int):ByteArray{
+        var downloadingArray=ByteArray(size)
+        var l=size
+        val buf = ByteArray(1024)
+
+        var num_read = 0
+        while (l > 0) {
+
+            num_read = inputStream.read(buf, 0, Math.min(buf.size, l))
+            if (num_read == -1) {  // end of stream
+                break;
             }
+            downloadingArray.append(buf)//now fix
+            l -= num_read
         }
+        return downloadingArray
+    }
+
+    fun getSize():Int{
+        var digit = ByteArray(4)
+        inputStream.read(digit, 0, 4)
+        return BigInteger(digit).toInt()
+    }
+
+        inner class WebServiceBinder(): Binder() {
+            fun getService():WebService=this@WebSevice
+            }
+
+    override fun onBind(intent: Intent): IBinder {
+        return this.binder
+    }
 
 }
