@@ -53,6 +53,11 @@ class FightSettingViewModel:ViewModel() {
                 TODO("Not yet implemented")
             }
         }
+
+        //start service
+        var intent = Intent(context, WebService::class.java)
+        context.startService(intent)
+        context.bindService(intent,WebServiceConnection, Context.BIND_AUTO_CREATE)
     }
 
     fun initiateAdapter(context: Context){
@@ -79,14 +84,15 @@ class FightSettingViewModel:ViewModel() {
         //replace to service
         var job= GlobalScope.launch(Dispatchers.IO) {//later create activity scope?
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+            if(serverIpLive.value!=ip)webService.reconnect(serverIpLive.value!!)
+
+            //later make only if good connection
             val editor = pref.edit()
             editor.putString("ip", ip)
             editor.apply()
 
-            //start service
-            var intent = Intent(context, WebService::class.java)
-            context.startService(intent)
-            context.bindService(intent,WebServiceConnection, Context.BIND_AUTO_CREATE)
+
 
 
             /*var socket = Socket(ip, 8081)//make variable for port

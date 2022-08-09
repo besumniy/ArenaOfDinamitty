@@ -8,6 +8,7 @@ import android.preference.PreferenceManager
 import com.little_experimentator.arenaofdinamitty.R
 import org.json.JSONArray
 import java.io.DataOutputStream
+import java.io.File
 import java.io.InputStream
 import java.math.BigInteger
 import java.net.Socket
@@ -26,6 +27,12 @@ class WebService : Service() {
         //make connection
         val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         var ip=pref.getString("ip", applicationContext.getString(R.string.ip))
+        reconnect(ip!!)
+    }
+
+    fun reconnect(ip:String){
+        //val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        //var ip=pref.getString("ip", applicationContext.getString(R.string.ip))
         socket = Socket(ip, 8081)
         var dout = DataOutputStream(socket.getOutputStream())
         var inputStream = socket.getInputStream()
@@ -70,7 +77,8 @@ class WebService : Service() {
     }
 
     fun downloadFile(size:Int):ByteArray{
-        var downloadingArray=ByteArray(size)
+        //var downloadingArray=ByteArray(size)
+        var downloadingArray= File("")
         var l=size
         val buf = ByteArray(1024)
 
@@ -81,10 +89,12 @@ class WebService : Service() {
             if (num_read == -1) {  // end of stream
                 break;
             }
-            downloadingArray.append(buf)//now fix
+            downloadingArray.appendBytes(buf)//now fix
+            //downloadingArray.set(size-l,buf)
+            //downloadingArray=buf.joinTo(downloadingArray,"","","",-1,Null,None)
             l -= num_read
         }
-        return downloadingArray
+        return downloadingArray.readBytes()
     }
 
     fun getSize():Int{
@@ -94,7 +104,7 @@ class WebService : Service() {
     }
 
         inner class WebServiceBinder(): Binder() {
-            fun getService():WebService=this@WebSevice
+            fun getService():WebService=this@WebService
             }
 
     override fun onBind(intent: Intent): IBinder {
