@@ -30,7 +30,7 @@ class WebService : Service() {
         reconnect(ip!!)
     }
 
-    fun reconnect(ip:String){
+    suspend fun reconnect(ip:String){
         //val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         //var ip=pref.getString("ip", applicationContext.getString(R.string.ip))
         socket = Socket(ip, 8081)
@@ -47,11 +47,11 @@ class WebService : Service() {
         //close socket
     }
 
-    fun makeRequest(request:String):JSONArray{
+    suspend fun makeRequest(request:String):JSONArray{
         return JSONArray()
     }
 
-    fun makeRequestShort(request:String):String{
+    suspend fun makeRequestShort(request:String):String{
         dout.writeUTF(request.toString())
         dout.flush()
         var digit = ByteArray(4)
@@ -62,12 +62,12 @@ class WebService : Service() {
         return answer_b.decodeToString()
     }
 
-    fun sendMessage(request:String){
+    suspend fun sendMessage(request:String){
         dout.writeUTF(request.toString())
         dout.flush()
     }
 
-    fun getMessage():String{
+    suspend fun getMessage():String{
         var digit = ByteArray(4)
         inputStream.read(digit, 0, 4)
         var l = BigInteger(digit).toInt()
