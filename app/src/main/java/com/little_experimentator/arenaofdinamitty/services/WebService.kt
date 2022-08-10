@@ -6,6 +6,9 @@ import android.os.Binder
 import android.os.IBinder
 import android.preference.PreferenceManager
 import com.little_experimentator.arenaofdinamitty.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import java.io.DataOutputStream
 import java.io.File
@@ -27,15 +30,15 @@ class WebService : Service() {
         //make connection
         val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         var ip=pref.getString("ip", applicationContext.getString(R.string.ip))
-        reconnect(ip!!)
+        GlobalScope.launch(Dispatchers.IO) {reconnect(ip!!)}
     }
 
     suspend fun reconnect(ip:String){
         //val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         //var ip=pref.getString("ip", applicationContext.getString(R.string.ip))
         socket = Socket(ip, 8081)
-        var dout = DataOutputStream(socket.getOutputStream())
-        var inputStream = socket.getInputStream()
+        dout = DataOutputStream(socket.getOutputStream())
+        inputStream = socket.getInputStream()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -76,7 +79,7 @@ class WebService : Service() {
         return answer_b.decodeToString()
     }
 
-    fun downloadFile(size:Int):ByteArray{
+    suspend fun downloadFile(size:Int):ByteArray{
         //var downloadingArray=ByteArray(size)
         var downloadingArray= File("")
         var l=size
@@ -97,7 +100,7 @@ class WebService : Service() {
         return downloadingArray.readBytes()
     }
 
-    fun getSize():Int{
+    suspend fun getSize():Int{
         var digit = ByteArray(4)
         inputStream.read(digit, 0, 4)
         return BigInteger(digit).toInt()
