@@ -1,17 +1,22 @@
 package com.little_experimentator.arenaofdinamitty
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.content.res.Resources
 import android.os.Build
+import android.os.IBinder
 import android.preference.PreferenceManager
 import android.view.MotionEvent
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.little_experimentator.arenaofdinamitty.services.WebService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
@@ -35,16 +40,17 @@ class FightViewModel: ViewModel() {
     var touch: JSONArray = JSONArray()
     var touches= JSONObject()
 
+    lateinit var webService:WebService
+
     @RequiresApi(Build.VERSION_CODES.N)
     fun fight(context: Context){
         var job= GlobalScope.launch(Dispatchers.IO) {//later create activity scope?
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
-            var ip=pref.getString("ip", "")
-            var enemy=pref.getString("ip", "")
+            var enemy=pref.getString("enemy", "")
 
-            var socket = Socket(ip, 8080)//make variable for port
+            /*var socket = Socket(ip, 8081)//make variable for port
             var dout = DataOutputStream(socket.getOutputStream())
-            var inputStream = socket.getInputStream()
+            var inputStream = socket.getInputStream()*/
 
             var height= Resources.getSystem().displayMetrics.heightPixels.toInt()//??? maiby after onCreate
             var width= Resources.getSystem().displayMetrics.widthPixels.toInt()//
@@ -52,11 +58,31 @@ class FightViewModel: ViewModel() {
             //game_area_width=(height*1.5).toInt()
             //side_width=((width-game_area_width)/3.0).toInt()
 
+            //connect servise
+            var intent = Intent(context, WebService::class.java)
+            context.bindService(intent, WebServiceConnection, Context.BIND_AUTO_CREATE)
+
             var fight=true
             //socketU.broadcast=true//need we at if connect only to one client?
             while(fight) {
-                //get word
-                val digit=ByteArray(4)
+                //send touches
+                //maybe other launch
+                touches.put("d",touch_down)
+                touches.put("u",touch_up)
+                touches.put("t",touch)
+
+                //dout.writeUTF(activity.touches.toString())//? realy to string?
+                //dout.flush()
+                //sendU= DatagramPacket(touches.toString().toByteArray(),touches.toString().toByteArray().size, InetAddress.getByName(adress),new_port)
+
+
+                val getJob=async{webService.makeRequest(touches.toString())}
+                var get = getJob.await()//JSONObject(get_js.decodeToString())
+
+                touch_down= JSONArray()
+                touch_up= JSONArray()
+
+                /*val digit=ByteArray(4)
                 inputStream.read(digit,0,4)
                 var l= BigInteger(digit).toInt()
                 var buf = ByteArray(1024)//4?
@@ -69,10 +95,10 @@ class FightViewModel: ViewModel() {
                     }
                     get_js = get_js + buf.copyOfRange(0, num_read)
                     l -= num_read
-                }
+                }*/
                 //try work with word
                 //try{
-                var get = JSONObject(get_js.decodeToString())
+
                 getLive.value=get
                 var world = get.getJSONArray("w")
                 worldLive.value=world
@@ -101,19 +127,6 @@ class FightViewModel: ViewModel() {
                 // }
                 //catch (e:Exception){log.appendText("failed\n")}
 
-                //send touches
-                //maybe other launch
-                touches.put("d",touch_down)
-                touches.put("u",touch_up)
-                touches.put("t",touch)
-
-                //dout.writeUTF(activity.touches.toString())//? realy to string?
-                //dout.flush()
-                //sendU= DatagramPacket(touches.toString().toByteArray(),touches.toString().toByteArray().size, InetAddress.getByName(adress),new_port)
-                dout.writeUTF(touches.toString())//
-                dout.flush()
-                touch_down= JSONArray()
-                touch_up= JSONArray()
             }
             context.startActivity(Intent(context, WarriorListActivity::class.java))
             //
@@ -150,6 +163,17 @@ class FightViewModel: ViewModel() {
                         touch.getJSONObject(i).put("y",y)
                         break}
             }
+        }
+    }
+
+    var WebServiceConnection = object: ServiceConnection {
+        override fun onServiceConnected(name: ComponentName, service: IBinder){
+            var myBinder:WebService.WebServiceBinder=service as WebService.WebServiceBinder
+            webService=myBinder.getService()
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            TODO("Not yet implemented")
         }
     }
 }

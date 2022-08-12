@@ -3,14 +3,17 @@ package com.little_experimentator.arenaofdinamitty.services
 import android.app.Service
 import android.content.Intent
 import android.os.Binder
+import android.os.Build
 import android.os.Environment
 import android.os.IBinder
 import android.preference.PreferenceManager
+import androidx.annotation.RequiresApi
 import com.little_experimentator.arenaofdinamitty.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.json.JSONArray
+import org.json.JSONObject
 import java.io.DataOutputStream
 import java.io.File
 import java.io.InputStream
@@ -51,8 +54,23 @@ class WebService : Service() {
         //close socket
     }
 
-    suspend fun makeRequest(request:String):JSONArray{
-        return JSONArray()
+    @RequiresApi(Build.VERSION_CODES.N)
+    suspend fun makeRequest(request:String):JSONObject{
+        val digit=ByteArray(4)
+        inputStream.read(digit,0,4)
+        var l= BigInteger(digit).toInt()
+        var buf = ByteArray(1024)//4?
+        var num_read=0
+        var get_js=ByteArray(0)
+        while (l > 0) {
+            num_read = inputStream.read(buf, 0, Integer.min(buf.size, l))
+            if (num_read == -1 ) {  // end of stream
+                break;
+            }
+            get_js = get_js + buf.copyOfRange(0, num_read)
+            l -= num_read
+        }
+        return JSONObject(get_js.decodeToString())
     }
 
     suspend fun makeRequestShort(request:String):String{

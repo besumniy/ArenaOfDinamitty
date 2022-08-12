@@ -4,9 +4,11 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.os.Build
 import android.os.Environment
 import android.os.IBinder
 import android.preference.PreferenceManager
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.little_experimentator.arenaofdinamitty.services.WebService
@@ -26,14 +28,14 @@ class FightLoadViewModel: ViewModel() {
 
     lateinit var webService:WebService
 
-    fun load( context: Context) {
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun load(context: Context) {
         var job = GlobalScope.launch(Dispatchers.IO) {//later create activity scope?
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
             var enemy = pref.getString("enemy", "")
 
-            //start service
+            //connect service
             var intent = Intent(context, WebService::class.java)
-            //context.startService(intent)
             context.bindService(intent, WebServiceConnection, Context.BIND_AUTO_CREATE)
 
             /*var socket = Socket(ip, 8081)//make variable for port
@@ -135,10 +137,10 @@ class FightLoadViewModel: ViewModel() {
                 //log.appendText("sended\n")
                 //dout.writeUTF(message.toString())
                 //dout.flush()
-                webService.makeRequest(message.toString())
+                webService.sendMessage(message.toString())
                 //log.appendText(""+scale)
                 log.appendText("sended\n")
-                context.startActivity(Intent(context, FightActivityOld::class.java))
+                context.startActivity(Intent(context, FightActivity::class.java))
             }
         }
     }
