@@ -3,6 +3,7 @@ package com.little_experimentator.arenaofdinamitty.services
 import android.app.Service
 import android.content.Intent
 import android.os.Binder
+import android.os.Environment
 import android.os.IBinder
 import android.preference.PreferenceManager
 import com.little_experimentator.arenaofdinamitty.R
@@ -55,13 +56,20 @@ class WebService : Service() {
     }
 
     suspend fun makeRequestShort(request:String):String{
-        dout.writeUTF(request.toString())
+        val log =
+            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/message_story.txt")
+        if(!log.exists())log.createNewFile()
+        log.appendText(request)
+        dout.writeUTF(request)
         dout.flush()
+        log.appendText(request+" sended")
         var digit = ByteArray(4)
         inputStream.read(digit, 0, 4)
+        log.appendText(digit.toString()+" size")
         var l = BigInteger(digit).toInt()
         var answer_b = ByteArray(l);
         inputStream.read(answer_b, 0, l)
+        log.appendText(answer_b.decodeToString()+" get")
         return answer_b.decodeToString()
     }
 

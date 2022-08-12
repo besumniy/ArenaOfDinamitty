@@ -17,6 +17,7 @@ import com.little_experimentator.arenaofdinamitty.services.WebService
 //import com.little_experimentator.arenaofdinamitty.services.WebService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.io.File
@@ -105,7 +106,8 @@ class FightSettingViewModel:ViewModel() {
             var message= JSONObject()
             message.put("c","fight")
 
-            webService.makeRequestShort(message.toString())
+            async{webService.makeRequestShort(message.toString())}.await()
+
 
             //get 'wait' from serfer for checking connectin
             //val check=ByteArray(4)
@@ -117,8 +119,8 @@ class FightSettingViewModel:ViewModel() {
             send.put("n",name)
             send.put("h",height)
             send.put("w",width)
-            var enemy = webService.makeRequestShort(send.toString())
-
+            var getEnemy=async{webService.makeRequestShort(send.toString())}
+            var enemy = getEnemy.await()//webService.makeRequestShort(send.toString())
 
 
             //get info about enemies warrior
