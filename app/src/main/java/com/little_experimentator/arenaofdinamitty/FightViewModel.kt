@@ -41,10 +41,28 @@ class FightViewModel: ViewModel() {
     var touches= JSONObject()
 
     lateinit var webService:WebService
+    //lateinit var get:JSONObject
+    var serviseIsInitialized=false
+    var fight=false
+    var fightIsFinished=false
+
+    var WebServiceConnection = object: ServiceConnection {
+        override fun onServiceConnected(name: ComponentName, service: IBinder){
+            var myBinder:WebService.WebServiceBinder=service as WebService.WebServiceBinder
+            webService=myBinder.getService()
+            serviseIsInitialized=true
+
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            TODO("Not yet implemented")
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun fight(context: Context){
-        var job= GlobalScope.launch(Dispatchers.IO) {//later create activity scope?
+        Toast.makeText(context, "sooooooooooooooo", Toast.LENGTH_SHORT).show()
+        GlobalScope.launch(Dispatchers.IO) {//later create activity scope?
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
             var enemy=pref.getString("enemy", "")
 
@@ -62,7 +80,7 @@ class FightViewModel: ViewModel() {
             var intent = Intent(context, WebService::class.java)
             context.bindService(intent, WebServiceConnection, Context.BIND_AUTO_CREATE)
 
-            var fight=true
+            fight=true
             //socketU.broadcast=true//need we at if connect only to one client?
             while(fight) {
                 //send touches
@@ -75,14 +93,14 @@ class FightViewModel: ViewModel() {
                 //dout.flush()
                 //sendU= DatagramPacket(touches.toString().toByteArray(),touches.toString().toByteArray().size, InetAddress.getByName(adress),new_port)
 
+                if(serviseIsInitialized) {
+                    val getJob = async { webService.makeRequest(touches.toString()) }
+                    val get = getJob.await()//JSONObject(get_js.decodeToString())
 
-                val getJob=async{webService.makeRequest(touches.toString())}
-                var get = getJob.await()//JSONObject(get_js.decodeToString())
+                    touch_down = JSONArray()
+                    touch_up = JSONArray()
 
-                touch_down= JSONArray()
-                touch_up= JSONArray()
-
-                /*val digit=ByteArray(4)
+                    /*val digit=ByteArray(4)
                 inputStream.read(digit,0,4)
                 var l= BigInteger(digit).toInt()
                 var buf = ByteArray(1024)//4?
@@ -96,41 +114,58 @@ class FightViewModel: ViewModel() {
                     get_js = get_js + buf.copyOfRange(0, num_read)
                     l -= num_read
                 }*/
-                //try work with word
-                //try{
+                    //try work with word
+                    //try{
 
-                getLive.value=get
-                var world = get.getJSONArray("w")
-                worldLive.value=world
-                var face=get.getBoolean("f")
-                faceLive.value=face
-                //game_screen.isInitilized=true
-                var x=0
-                var y=0
-                if(face){
-                    x=get.getInt("x")//*scale-width/20.0
-                    y=get.getInt("y")//*scale-height/20.0
-                }else{
-                    x=get.getInt("x")//*scale+width/20.0*19
-                    y=get.getInt("y")//*scale-height/20.0
+                    GlobalScope.launch(Dispatchers.Main){
+                        //while(true)while(fight)
+                        {
+                            {
+                                Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show()
+                                getLive.value = get
+                                Toast.makeText(context, getLive.value.toString(), Toast.LENGTH_SHORT).show()
+                                var world = getLive.value!!.getJSONArray("w")
+                                worldLive.value = world
+                                var face = getLive.value!!.getBoolean("f")
+                                faceLive.value = face
+                                //game_screen.isInitilized=true
+                                var x = 0
+                                var y = 0
+                                if (face) {
+                                    x = getLive.value!!.getInt("x")//*scale-width/20.0
+                                    y = getLive.value!!.getInt("y")//*scale-height/20.0
+                                } else {
+                                    x = getLive.value!!.getInt("x")//*scale+width/20.0*19
+                                    y = getLive.value!!.getInt("y")//*scale-height/20.0
+                                }
+                                xLive.value = x
+                                yLive.value = y
+
+                                //maibe it next try or launch
+                                //getLive.value = get
+                                worldLive.value = world
+                                faceLive.value = face
+                                isInitilizedLive.value = true}
+                            //else{}
+                            //try{game_screen.invalidate()}catch(e:Exception){}
+
+                            // }
+                            //catch (e:Exception){log.appendText("failed\n")}
+                        }
+                        //else draw wait(?)
+                        if(fightIsFinished) return@launch
+                    }
+
+
                 }
-                xLive.value=x
-                yLive.value=y
-
-                //maibe it next try or launch
-                getLive.value=get
-                worldLive.value=world
-                faceLive.value=face
-                isInitilizedLive.value=true
-                //try{game_screen.invalidate()}catch(e:Exception){}
-
-                // }
-                //catch (e:Exception){log.appendText("failed\n")}
-
             }
             context.startActivity(Intent(context, WarriorListActivity::class.java))
             //
         }
+        Toast.makeText(context, "acunamatata", Toast.LENGTH_SHORT).show()
+
+        Toast.makeText(context, serviseIsInitialized.toString(), Toast.LENGTH_SHORT).show()
+
     }
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun onClick(event: MotionEvent?){
@@ -166,14 +201,5 @@ class FightViewModel: ViewModel() {
         }
     }
 
-    var WebServiceConnection = object: ServiceConnection {
-        override fun onServiceConnected(name: ComponentName, service: IBinder){
-            var myBinder:WebService.WebServiceBinder=service as WebService.WebServiceBinder
-            webService=myBinder.getService()
-        }
 
-        override fun onServiceDisconnected(name: ComponentName?) {
-            TODO("Not yet implemented")
-        }
-    }
 }

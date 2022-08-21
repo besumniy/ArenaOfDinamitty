@@ -56,6 +56,9 @@ class WebService : Service() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     suspend fun makeRequest(request:String):JSONObject{
+        dout.writeUTF(request)
+        dout.flush()
+
         val digit=ByteArray(4)
         inputStream.read(digit,0,4)
         var l= BigInteger(digit).toInt()

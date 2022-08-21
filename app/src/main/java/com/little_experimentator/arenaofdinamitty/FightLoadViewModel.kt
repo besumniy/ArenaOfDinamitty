@@ -27,10 +27,30 @@ class FightLoadViewModel: ViewModel() {
     val progressStringLive= MutableLiveData<String>()
 
     lateinit var webService:WebService
+    var bindNoReady=true
+
+    var WebServiceConnection = object:ServiceConnection{
+        override fun onServiceConnected(name: ComponentName, service: IBinder){
+            var myBinder:WebService.WebServiceBinder=service as WebService.WebServiceBinder
+            webService=myBinder.getService()
+            bindNoReady=false
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            TODO("Not yet implemented")
+        }
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun load(context: Context) {
+        val log =
+            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log.txt")
+        log.createNewFile()
+        log.writeText("ok/n")
+        log.writeText(bindNoReady.toString())
         var job = GlobalScope.launch(Dispatchers.IO) {//later create activity scope?
+
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
             var enemy = pref.getString("enemy", "")
 
@@ -42,18 +62,23 @@ class FightLoadViewModel: ViewModel() {
             var dout = DataOutputStream(socket.getOutputStream())
             var inputStream = socket.getInputStream()*/
 
+            log.writeText(bindNoReady.toString())
+            while(bindNoReady){}
+            log.writeText(bindNoReady.toString())
+
             //need send id of fight
             val file =
                 File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/images/minions/" + enemy)//?
-            val log =
-                File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log.txt")
-            log.createNewFile()
+
             log.writeText(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/images/minions/$enemy\n")
             if (file.exists()) {
+                var send= JSONObject()
+                send.put("c","ready")
+                webService.sendMessage(send.toString())
                 log.appendText("is exist\n");context.startActivity(
                     Intent(
                         context,
-                        FightActivityOld::class.java
+                        FightActivity::class.java
                     )
                 )
             } else {
@@ -154,17 +179,7 @@ class FightLoadViewModel: ViewModel() {
     }
      */
 
-    var WebServiceConnection = object:ServiceConnection{
-        override fun onServiceConnected(name: ComponentName, service: IBinder){
-            var myBinder:WebService.WebServiceBinder=service as WebService.WebServiceBinder
-            webService=myBinder.getService()
-        }
-
-        override fun onServiceDisconnected(name: ComponentName?) {
-            TODO("Not yet implemented")
-        }
-    }
-
+    
 }
 
 

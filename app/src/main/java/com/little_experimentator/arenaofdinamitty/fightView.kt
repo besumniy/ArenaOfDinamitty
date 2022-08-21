@@ -48,7 +48,7 @@ class fightView: View {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        Toast.makeText(activity,"start", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(activity,"start", Toast.LENGTH_SHORT).show()
     }
 
     /*SuppressLint("ResourceType")
@@ -116,7 +116,7 @@ class fightView: View {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun dispatchDraw(canvas: Canvas?) {
         super.dispatchDraw(canvas)
-        Toast.makeText(activity,isInitilized.toString(), Toast.LENGTH_SHORT).show()
+        //Toast.makeText(activity,isInitilized.toString(), Toast.LENGTH_SHORT).show()
         if(isInitilized){
         //var for_draw= mutableListOf<ForDraw>()//MutableList<ForDraw>
         for (i in 0..world.length()-1) {//maybe change!!!
@@ -171,7 +171,8 @@ class fightView: View {
                 msg.getInt("x"),msg.getInt("y"),msg.getInt("w"),msg.getInt("h"),0f)
         }
         //activity.game_screen.removeAllViews()
-    }}
+    }
+        invalidate()}
     fun drawArea(canvas: Canvas, drawable: Drawable, x:Int,y:Int,w:Int,h:Int, i:Float){
         if(canvas==null)return
 
@@ -186,7 +187,7 @@ class fightView: View {
     fun drawHealth(canvas: Canvas, drawable: Drawable, x:Int,y:Int,w:Int,h:Int, i:Float,health:Float){
         if(canvas==null)return
 
-        Toast.makeText(activity,"sooooooo", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(activity,"sooooooo", Toast.LENGTH_SHORT).show()
 
         if(health>=0.5)drawable.setColorFilter(Color.rgb((255-(health)*255).toInt(),255,0),PorterDuff.Mode.MULTIPLY)
         //new_view.color="#"+(ff-(health.getInt(i)-health_max.getInt(i)/2)/(health_max.getInt(i)))+"ff00"

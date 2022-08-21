@@ -1,8 +1,11 @@
 package com.little_experimentator.arenaofdinamitty
 
 import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.view.MotionEvent
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +23,7 @@ class FightActivity: AppCompatActivity() {
 
     val screen = Screen()
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fight)
@@ -46,12 +50,19 @@ class FightActivity: AppCompatActivity() {
         fight_vm.isInitilizedLive.observe(this, Observer {
             game_screen.isInitilized= it
         })
-
+        fight_vm.fight(this)
     }
 
     override fun onResume(){
         super.onResume()
         screen.makeFullScreenMode(this)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    override fun onTouchEvent(event: MotionEvent?): Boolean{
+        super.onTouchEvent(event)
+        fight_vm.onClick(event)
+        return true
     }
 }
 
