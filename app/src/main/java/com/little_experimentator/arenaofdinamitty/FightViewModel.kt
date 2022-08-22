@@ -61,7 +61,7 @@ class FightViewModel: ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun fight(context: Context){
-        Toast.makeText(context, "sooooooooooooooo", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "sooooooooooooooo"+serviseIsInitialized.toString(), Toast.LENGTH_SHORT).show()
         GlobalScope.launch(Dispatchers.IO) {//later create activity scope?
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
             var enemy=pref.getString("enemy", "")
@@ -93,8 +93,11 @@ class FightViewModel: ViewModel() {
                 //dout.flush()
                 //sendU= DatagramPacket(touches.toString().toByteArray(),touches.toString().toByteArray().size, InetAddress.getByName(adress),new_port)
 
+                GlobalScope.launch(Dispatchers.Main){Toast.makeText(context, "ok: "+serviseIsInitialized.toString(), Toast.LENGTH_SHORT).show()}
+
+
                 if(serviseIsInitialized) {
-                    val getJob = async { webService.makeRequest(touches.toString()) }
+                    val getJob = async {webService.makeRequest(touches.toString()) }
                     val get = getJob.await()//JSONObject(get_js.decodeToString())
 
                     touch_down = JSONArray()
@@ -118,9 +121,7 @@ class FightViewModel: ViewModel() {
                     //try{
 
                     GlobalScope.launch(Dispatchers.Main){
-                        //while(true)while(fight)
-                        {
-                            {
+
                                 Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show()
                                 getLive.value = get
                                 Toast.makeText(context, getLive.value.toString(), Toast.LENGTH_SHORT).show()
@@ -152,12 +153,7 @@ class FightViewModel: ViewModel() {
                             // }
                             //catch (e:Exception){log.appendText("failed\n")}
                         }
-                        //else draw wait(?)
-                        if(fightIsFinished) return@launch
-                    }
 
-
-                }
             }
             context.startActivity(Intent(context, WarriorListActivity::class.java))
             //
