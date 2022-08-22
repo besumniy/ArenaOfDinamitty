@@ -61,14 +61,9 @@ class FightViewModel: ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun fight(context: Context){
-        Toast.makeText(context, "sooooooooooooooo"+serviseIsInitialized.toString(), Toast.LENGTH_SHORT).show()
         GlobalScope.launch(Dispatchers.IO) {//later create activity scope?
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
             var enemy=pref.getString("enemy", "")
-
-            /*var socket = Socket(ip, 8081)//make variable for port
-            var dout = DataOutputStream(socket.getOutputStream())
-            var inputStream = socket.getInputStream()*/
 
             var height= Resources.getSystem().displayMetrics.heightPixels.toInt()//??? maiby after onCreate
             var width= Resources.getSystem().displayMetrics.widthPixels.toInt()//
@@ -81,7 +76,6 @@ class FightViewModel: ViewModel() {
             context.bindService(intent, WebServiceConnection, Context.BIND_AUTO_CREATE)
 
             fight=true
-            //socketU.broadcast=true//need we at if connect only to one client?
             while(fight) {
                 //send touches
                 //maybe other launch
@@ -103,28 +97,9 @@ class FightViewModel: ViewModel() {
                     touch_down = JSONArray()
                     touch_up = JSONArray()
 
-                    /*val digit=ByteArray(4)
-                inputStream.read(digit,0,4)
-                var l= BigInteger(digit).toInt()
-                var buf = ByteArray(1024)//4?
-                var num_read=0
-                var get_js=ByteArray(0)
-                while (l > 0) {
-                    num_read = inputStream.read(buf, 0, Integer.min(buf.size, l))
-                    if (num_read == -1 ) {  // end of stream
-                        break;
-                    }
-                    get_js = get_js + buf.copyOfRange(0, num_read)
-                    l -= num_read
-                }*/
-                    //try work with word
-                    //try{
-
                     GlobalScope.launch(Dispatchers.Main){
 
-                                Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show()
                                 getLive.value = get
-                                Toast.makeText(context, getLive.value.toString(), Toast.LENGTH_SHORT).show()
                                 var world = getLive.value!!.getJSONArray("w")
                                 worldLive.value = world
                                 var face = getLive.value!!.getBoolean("f")
@@ -147,11 +122,6 @@ class FightViewModel: ViewModel() {
                                 worldLive.value = world
                                 faceLive.value = face
                                 isInitilizedLive.value = true}
-                            //else{}
-                            //try{game_screen.invalidate()}catch(e:Exception){}
-
-                            // }
-                            //catch (e:Exception){log.appendText("failed\n")}
                         }
 
             }
