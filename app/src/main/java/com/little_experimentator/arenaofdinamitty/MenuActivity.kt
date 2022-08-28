@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import com.little_experimentator.arenaofdinamitty.usecases.Screen
 
 class MenuActivity : AppCompatActivity() {
 
@@ -14,6 +15,8 @@ class MenuActivity : AppCompatActivity() {
     lateinit var button_shop: Button
 
     lateinit var menu_vm: MenuViewModel
+
+    val screen = Screen()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,5 +42,9 @@ class MenuActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume(){
+        super.onResume()
+        screen.makeFullScreenMode(this)
+    }
 
 }

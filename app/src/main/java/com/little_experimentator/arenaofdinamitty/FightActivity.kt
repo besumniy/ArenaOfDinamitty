@@ -61,7 +61,7 @@ class FightActivity: AppCompatActivity() {
         screen.makeFullScreenMode(this)
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
+@RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onTouchEvent(event: MotionEvent?): Boolean{
         super.onTouchEvent(event)
         //Toast.makeText(this,game_screen.side_width.toString(), Toast.LENGTH_SHORT).show()
