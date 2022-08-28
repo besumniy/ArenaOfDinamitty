@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.MotionEvent
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -51,6 +52,8 @@ class FightActivity: AppCompatActivity() {
             game_screen.isInitilized= it
         })
         fight_vm.fight(this)
+        Toast.makeText(this,game_screen.height.toString(), Toast.LENGTH_SHORT).show()
+        Toast.makeText(this,game_screen.width.toString(), Toast.LENGTH_SHORT).show()
     }
 
     override fun onResume(){
@@ -61,7 +64,11 @@ class FightActivity: AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onTouchEvent(event: MotionEvent?): Boolean{
         super.onTouchEvent(event)
+        //Toast.makeText(this,game_screen.side_width.toString(), Toast.LENGTH_SHORT).show()
         fight_vm.onClick(event)
+        //Toast.makeText(this,fight_vm.touches.toString(), Toast.LENGTH_SHORT).show()
+        Toast.makeText(this,game_screen.height.toString(), Toast.LENGTH_SHORT).show()
+        Toast.makeText(this,game_screen.width.toString(), Toast.LENGTH_SHORT).show()
         return true
     }
 }

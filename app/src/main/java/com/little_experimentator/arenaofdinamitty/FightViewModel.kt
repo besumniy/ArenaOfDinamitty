@@ -83,6 +83,8 @@ class FightViewModel: ViewModel() {
                 touches.put("u",touch_up)
                 touches.put("t",touch)
 
+                //GlobalScope.launch(Dispatchers.Main){Toast.makeText(context,touches.toString(), Toast.LENGTH_SHORT).show()}
+
                 //dout.writeUTF(activity.touches.toString())//? realy to string?
                 //dout.flush()
                 //sendU= DatagramPacket(touches.toString().toByteArray(),touches.toString().toByteArray().size, InetAddress.getByName(adress),new_port)
@@ -165,6 +167,8 @@ class FightViewModel: ViewModel() {
                         break}
             }
         }
+
+        //Toast.makeText(context,touches.toString(), Toast.LENGTH_SHORT).show()
     }
 
 

@@ -29,26 +29,22 @@ class fightView: View {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     constructor(context: Context):super(context) {
-        side_width=((width-height*1.5)/3.0).toInt()
-        icon_size=side_width
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     constructor(context: Context, attrs: AttributeSet):super(context,attrs) {
-        side_width=((width-height*1.5)/3.0).toInt()
-        icon_size=side_width
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     constructor(context: Context, attrs: AttributeSet, defStyle:Int):super(context, attrs, defStyle) {
-        side_width=((width-height*1.5)/3.0).toInt()
-        icon_size=side_width
     }
 
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) /**/{
         //Toast.makeText(activity,"start", Toast.LENGTH_SHORT).show()
+        // side_width=((width-height*1.5)/3.0).toInt()
+        icon_size=side_width
     }
 
     /*SuppressLint("ResourceType")
@@ -116,7 +112,7 @@ class fightView: View {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun dispatchDraw(canvas: Canvas?) {
         super.dispatchDraw(canvas)
-        //Toast.makeText(activity,isInitilized.toString(), Toast.LENGTH_SHORT).show()
+        //Toast.makeText(activity,side_width.toString(), Toast.LENGTH_SHORT).show()
         if(isInitilized){
         //var for_draw= mutableListOf<ForDraw>()//MutableList<ForDraw>
         for (i in 0..world.length()-1) {//maybe change!!!
