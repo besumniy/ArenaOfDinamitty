@@ -31,6 +31,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/ip"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_fight"
         app:layout_constraintStart_toStartOf="parent"

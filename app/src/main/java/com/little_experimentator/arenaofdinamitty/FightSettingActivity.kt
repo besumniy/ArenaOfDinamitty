@@ -54,7 +54,7 @@ class FightSettingActivity : AppCompatActivity() {
         fs_vm = ViewModelProvider(this).get(FightSettingViewModel::class.java)
         fs_vm.clickableLive.observe(this,{
             clickable=it
-            button_fight.isEnabled = it
+            //button_fight.isEnabled = it
         })
         fs_vm.buttonTextLive.observe(this,{
             button_fight.text=it

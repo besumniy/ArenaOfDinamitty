@@ -2,6 +2,7 @@ package com.little_experimentator.arenaofdinamitty
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -43,8 +44,11 @@ class fightView: View {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) /**/{
         //Toast.makeText(activity,"start", Toast.LENGTH_SHORT).show()
-        // side_width=((width-height*1.5)/3.0).toInt()
+        side_width=((width-height*1.5)/3.0).toInt()
         icon_size=side_width
+
+        if(width== Resources.getSystem().displayMetrics.widthPixels.toInt())Toast.makeText(activity,"perfect", Toast.LENGTH_SHORT).show()
+        else Toast.makeText(activity,width.toString()+" not equal "+Resources.getSystem().displayMetrics.widthPixels.toString(), Toast.LENGTH_SHORT).show()
     }
 
     /*SuppressLint("ResourceType")

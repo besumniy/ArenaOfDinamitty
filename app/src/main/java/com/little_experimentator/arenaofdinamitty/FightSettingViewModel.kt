@@ -29,6 +29,9 @@ class FightSettingViewModel:ViewModel() {
     val buttonTextLive=MutableLiveData<String>()
     val clickableLive=MutableLiveData<Boolean>()
 
+    val SEARCHING_TEXT="searching... (click to cancel)"
+    val SETTINGS_TEXT="FIND VICTIM"
+
     var name=""
     lateinit var warriors:Array<File>
     lateinit var WebServiceConnection:ServiceConnection
@@ -80,7 +83,19 @@ class FightSettingViewModel:ViewModel() {
     }
 
     fun findFight(context:Context,ip:String){
-        buttonTextLive.value="searching"
+        if(clickableLive.value==false){
+            buttonTextLive.value=SETTINGS_TEXT
+            clickableLive.value=true
+            var job= GlobalScope.launch(Dispatchers.IO) {
+                //send cancel
+                var message= JSONObject()
+                message.put("c","cancel")
+
+                webService.makeRequestShort(message.toString())
+            }
+        }
+        else{
+        buttonTextLive.value=SEARCHING_TEXT
         clickableLive.value=false
         //replace to service
         var job= GlobalScope.launch(Dispatchers.IO) {//later create activity scope?
@@ -153,7 +168,7 @@ class FightSettingViewModel:ViewModel() {
             context.startActivity(Intent(context,FightLoadActivity::class.java))
             //comment cuz i not shure that this clear
             //or no commemt
-        }
+        }}
     }
 
 
