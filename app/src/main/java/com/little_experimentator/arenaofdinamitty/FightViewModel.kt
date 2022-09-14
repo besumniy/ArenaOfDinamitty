@@ -76,7 +76,7 @@ class FightViewModel: ViewModel() {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    fun fight(context: Context,width:Int,height:Int){
+    fun fight(context: Context,width:Int,height:Int /*game_screen:fightView*/ /*omg it really wrong but this is best idea which i have now*/){
 
 
         GlobalScope.launch(Dispatchers.IO) {//later create activity scope?
@@ -92,7 +92,7 @@ class FightViewModel: ViewModel() {
             //connect servise
 
 
-            //while(!serviseIsInitialized){}
+            while(!serviseIsInitialized){}
 
             var send= JSONObject()
             send.put("h",height)
@@ -106,6 +106,12 @@ class FightViewModel: ViewModel() {
                 touches.put("d",touch_down)
                 touches.put("u",touch_up)
                 touches.put("t",touch)
+
+                /*var size= JSONObject()
+                size.put("h",game_screen.height)
+                size.put("w",game_screen.width)
+
+                touches.put("s",size)*/
 
                 //GlobalScope.launch(Dispatchers.Main){Toast.makeText(context,touches.toString(), Toast.LENGTH_SHORT).show()}
 
