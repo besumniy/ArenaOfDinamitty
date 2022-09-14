@@ -22,6 +22,8 @@ class FightActivity: AppCompatActivity() {
 
     lateinit var game_screen:fightView
 
+    var first_init=true
+
     val screen = Screen()
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -51,18 +53,22 @@ class FightActivity: AppCompatActivity() {
         fight_vm.isInitilizedLive.observe(this, Observer {
             game_screen.isInitilized= it
         })
-        screen.makeFullScreenMode(this)
         fight_vm.connectToService(this)
         //fight_vm.sendSize(game_screen.width,game_screen.height)
-        while(!game_screen.sizeFormed){}
+        //while(!game_screen.sizeFormed){}
         fight_vm.fight(this,game_screen.width,game_screen.height)
         //Toast.makeText(this,game_screen.height.toString(), Toast.LENGTH_SHORT).show()
         //Toast.makeText(this,game_screen.width.toString(), Toast.LENGTH_SHORT).show()
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onResume(){
         super.onResume()
         screen.makeFullScreenMode(this)
+        if(first_init){
+            fight_vm.fight(this,game_screen.width,game_screen.height)
+            first_init=false
+        }
     }
 
 @RequiresApi(Build.VERSION_CODES.KITKAT)

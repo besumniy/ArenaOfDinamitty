@@ -92,7 +92,7 @@ class FightViewModel: ViewModel() {
             //connect servise
 
 
-            while(!serviseIsInitialized){}
+            //while(!serviseIsInitialized){}
 
             var send= JSONObject()
             send.put("h",height)
