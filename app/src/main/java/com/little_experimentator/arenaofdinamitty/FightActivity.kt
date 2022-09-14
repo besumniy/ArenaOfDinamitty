@@ -51,9 +51,13 @@ class FightActivity: AppCompatActivity() {
         fight_vm.isInitilizedLive.observe(this, Observer {
             game_screen.isInitilized= it
         })
-        fight_vm.fight(this)
-        Toast.makeText(this,game_screen.height.toString(), Toast.LENGTH_SHORT).show()
-        Toast.makeText(this,game_screen.width.toString(), Toast.LENGTH_SHORT).show()
+        screen.makeFullScreenMode(this)
+        fight_vm.connectToService(this)
+        //fight_vm.sendSize(game_screen.width,game_screen.height)
+        while(!game_screen.sizeFormed){}
+        fight_vm.fight(this,game_screen.width,game_screen.height)
+        //Toast.makeText(this,game_screen.height.toString(), Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this,game_screen.width.toString(), Toast.LENGTH_SHORT).show()
     }
 
     override fun onResume(){
@@ -67,8 +71,8 @@ class FightActivity: AppCompatActivity() {
         //Toast.makeText(this,game_screen.side_width.toString(), Toast.LENGTH_SHORT).show()
         fight_vm.onClick(event)
         //Toast.makeText(this,fight_vm.touches.toString(), Toast.LENGTH_SHORT).show()
-        Toast.makeText(this,game_screen.height.toString(), Toast.LENGTH_SHORT).show()
-        Toast.makeText(this,game_screen.width.toString(), Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this,game_screen.height.toString(), Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this,game_screen.width.toString(), Toast.LENGTH_SHORT).show()
         return true
     }
 }

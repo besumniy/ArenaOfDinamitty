@@ -162,7 +162,7 @@ class FightLoadViewModel: ViewModel() {
                 //log.appendText("sended\n")
                 //dout.writeUTF(message.toString())
                 //dout.flush()
-                webService.sendMessage(message.toString())
+                webService.makeRequestShort(message.toString())
                 //log.appendText(""+scale)
                 log.appendText("sended\n")
                 context.startActivity(Intent(context, FightActivity::class.java))

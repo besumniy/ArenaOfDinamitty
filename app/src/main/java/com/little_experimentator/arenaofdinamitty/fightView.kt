@@ -21,6 +21,7 @@ class fightView: View {
     lateinit var world: JSONArray
     var face=true
     var isInitilized=false
+    var sizeFormed=false
     var X=0
     var Y=0
 
@@ -49,6 +50,8 @@ class fightView: View {
 
         if(width== Resources.getSystem().displayMetrics.widthPixels.toInt())Toast.makeText(activity,"perfect", Toast.LENGTH_SHORT).show()
         else Toast.makeText(activity,width.toString()+" not equal "+Resources.getSystem().displayMetrics.widthPixels.toString(), Toast.LENGTH_SHORT).show()
+
+        sizeFormed=true
     }
 
     /*SuppressLint("ResourceType")

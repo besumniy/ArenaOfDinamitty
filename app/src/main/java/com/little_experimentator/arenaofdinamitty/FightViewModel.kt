@@ -58,22 +58,46 @@ class FightViewModel: ViewModel() {
             TODO("Not yet implemented")
         }
     }
+    fun connectToService(context:Context){
+        GlobalScope.launch(Dispatchers.IO){
+            var intent = Intent(context, WebService::class.java)
+            context.bindService(intent, WebServiceConnection, Context.BIND_AUTO_CREATE)}
+    }
+
+
+    fun sendSize(width:Int,height:Int){
+        GlobalScope.launch(Dispatchers.IO){
+            while(!serviseIsInitialized){}
+
+            var send= JSONObject()
+            send.put("h",height)
+            send.put("w",width)
+            async{webService.makeRequestShort(send.toString())}.await()}
+    }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    fun fight(context: Context){
+    fun fight(context: Context,width:Int,height:Int){
+
+
         GlobalScope.launch(Dispatchers.IO) {//later create activity scope?
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
             var enemy=pref.getString("enemy", "")
 
-            var height= Resources.getSystem().displayMetrics.heightPixels.toInt()//??? maiby after onCreate
-            var width= Resources.getSystem().displayMetrics.widthPixels.toInt()//
+            //var height= Resources.getSystem().displayMetrics.heightPixels.toInt()//??? maiby after onCreate
+            //var width= Resources.getSystem().displayMetrics.widthPixels.toInt()//
             //width=Resources.getSystem().displayMetrics.xdpi.toInt()
             //game_area_width=(height*1.5).toInt()
             //side_width=((width-game_area_width)/3.0).toInt()
 
             //connect servise
-            var intent = Intent(context, WebService::class.java)
-            context.bindService(intent, WebServiceConnection, Context.BIND_AUTO_CREATE)
+
+
+            while(!serviseIsInitialized){}
+
+            var send= JSONObject()
+            send.put("h",height)
+            send.put("w",width)
+            async{webService.makeRequestShort(send.toString())}.await()
 
             fight=true
             while(fight) {
@@ -89,7 +113,7 @@ class FightViewModel: ViewModel() {
                 //dout.flush()
                 //sendU= DatagramPacket(touches.toString().toByteArray(),touches.toString().toByteArray().size, InetAddress.getByName(adress),new_port)
 
-                GlobalScope.launch(Dispatchers.Main){Toast.makeText(context, "ok: "+serviseIsInitialized.toString(), Toast.LENGTH_SHORT).show()}
+                //GlobalScope.launch(Dispatchers.Main){Toast.makeText(context, "ok: "+serviseIsInitialized.toString(), Toast.LENGTH_SHORT).show()}
 
 
                 if(serviseIsInitialized) {
@@ -130,9 +154,9 @@ class FightViewModel: ViewModel() {
             context.startActivity(Intent(context, WarriorListActivity::class.java))
             //
         }
-        Toast.makeText(context, "acunamatata", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, "acunamatata", Toast.LENGTH_SHORT).show()
 
-        Toast.makeText(context, serviseIsInitialized.toString(), Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, serviseIsInitialized.toString(), Toast.LENGTH_SHORT).show()
 
     }
     @RequiresApi(Build.VERSION_CODES.KITKAT)

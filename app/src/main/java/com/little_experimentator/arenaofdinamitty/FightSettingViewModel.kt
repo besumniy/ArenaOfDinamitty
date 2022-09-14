@@ -132,8 +132,8 @@ class FightSettingViewModel:ViewModel() {
             //send info about ur warrior
             var send= JSONObject()
             send.put("n",name)
-            send.put("h",height)
-            send.put("w",width)
+            //send.put("h",height)
+            //send.put("w",width)
             var getEnemy=async{webService.makeRequestShort(send.toString())}
             var enemy = getEnemy.await()//webService.makeRequestShort(send.toString())
 
