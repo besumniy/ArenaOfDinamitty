@@ -56,7 +56,7 @@ class FightActivity: AppCompatActivity() {
         fight_vm.connectToService(this)
         //fight_vm.sendSize(game_screen.width,game_screen.height)
         //while(!game_screen.sizeFormed){}
-        fight_vm.fight(this,game_screen.width,game_screen.height)
+        fight_vm.fight(this,game_screen)
         //Toast.makeText(this,game_screen.height.toString(), Toast.LENGTH_SHORT).show()
         //Toast.makeText(this,game_screen.width.toString(), Toast.LENGTH_SHORT).show()
     }
