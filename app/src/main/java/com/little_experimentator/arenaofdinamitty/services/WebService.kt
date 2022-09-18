@@ -55,7 +55,11 @@ class WebService : Service() {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    suspend fun makeRequest(request:String):JSONObject{
+    /*suspend*/ fun makeRequest(request:String):JSONObject{
+        val log =
+            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/long_message_story.txt")
+        if(!log.exists())log.createNewFile()
+        log.appendText(request)
         dout.writeUTF(request)
         dout.flush()
 

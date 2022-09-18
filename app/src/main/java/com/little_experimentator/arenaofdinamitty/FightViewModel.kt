@@ -123,8 +123,10 @@ class FightViewModel: ViewModel() {
 
 
                 if(serviseIsInitialized) {
-                    val getJob = async {webService.makeRequest(touches.toString()) }
-                    val get = getJob.await()//JSONObject(get_js.decodeToString())
+                    //val getJob = async {webService.makeRequest(touches.toString()) }
+                    //val get = getJob.await()//JSONObject(get_js.decodeToString())
+
+                       val get=webService.makeRequest(touches.toString())
 
                     touch_down = JSONArray()
                     touch_up = JSONArray()
