@@ -120,16 +120,20 @@ class FightViewModel: ViewModel() {
                 //sendU= DatagramPacket(touches.toString().toByteArray(),touches.toString().toByteArray().size, InetAddress.getByName(adress),new_port)
 
                 //GlobalScope.launch(Dispatchers.Main){Toast.makeText(context, "ok: "+serviseIsInitialized.toString(), Toast.LENGTH_SHORT).show()}
-
+1
 
                 if(serviseIsInitialized) {
                     //val getJob = async {webService.makeRequest(touches.toString()) }
                     //val get = getJob.await()//JSONObject(get_js.decodeToString())
+                    var was_touch_down=false
+                    var was_touch_up=false
 
-                       val get=webService.makeRequest(touches.toString())
+                        if(touch_down.length()!=0)was_touch_down=true
+                        if(touch_up.length()!=0)was_touch_up=true
+                        val get=webService.makeRequest(touches.toString())
 
-                    touch_down = JSONArray()
-                    touch_up = JSONArray()
+                    if(was_touch_down)touch_down = JSONArray()
+                    if(was_touch_up)touch_up = JSONArray()
 
                     GlobalScope.launch(Dispatchers.Main){
 
