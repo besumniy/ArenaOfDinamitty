@@ -194,7 +194,8 @@ class fightView: View {
 
         if(health>=0.5)drawable.setColorFilter(Color.rgb((255-(health)*255).toInt(),255,0),PorterDuff.Mode.MULTIPLY)
         //new_view.color="#"+(ff-(health.getInt(i)-health_max.getInt(i)/2)/(health_max.getInt(i)))+"ff00"
-        else drawable.setColorFilter(Color.rgb(255,(health*2*255).toInt(),0),PorterDuff.Mode.MULTIPLY)
+        else if(health>0)drawable.setColorFilter(Color.rgb(255,(health*2*255).toInt(),0),PorterDuff.Mode.MULTIPLY)
+        else drawable.setColorFilter(Color.rgb(255,0,0),PorterDuff.Mode.MULTIPLY)
 
         var rect=Rect(x,y,x+w,y+h)
         //drawable.setColorFilter(Color.rgb(1,2,3),PorterDuff.Mode.OVERLAY)//add or other
