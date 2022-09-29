@@ -138,6 +138,12 @@ class FightViewModel: ViewModel() {
                     GlobalScope.launch(Dispatchers.Main){
 
                                 getLive.value = get
+
+                                if(getLive.value!!.has("c")){
+                                    if(getLive.value!!.getString("c")=="exit")fight==false
+                                }
+                                else{
+
                                 var world = getLive.value!!.getJSONArray("w")
                                 worldLive.value = world
                                 var face = getLive.value!!.getBoolean("f")
@@ -159,10 +165,12 @@ class FightViewModel: ViewModel() {
                                 //getLive.value = get
                                 worldLive.value = world
                                 faceLive.value = face
-                                isInitilizedLive.value = true}
+                                isInitilizedLive.value = true}}
                         }
 
             }
+
+            //destroy this activity?
             context.startActivity(Intent(context, WarriorListActivity::class.java))
             //
         }
