@@ -40,9 +40,10 @@ class WebService : Service() {
     suspend fun reconnect(ip:String){
         //val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         //var ip=pref.getString("ip", applicationContext.getString(R.string.ip))
-        socket = Socket(ip, 8081)
+        try{socket = Socket(ip, 8081)
         dout = DataOutputStream(socket.getOutputStream())
-        inputStream = socket.getInputStream()
+        inputStream = socket.getInputStream()}
+        catch(e:Exception){}
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

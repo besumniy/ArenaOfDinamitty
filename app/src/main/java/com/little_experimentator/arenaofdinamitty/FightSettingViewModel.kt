@@ -101,12 +101,14 @@ class FightSettingViewModel:ViewModel() {
         var job= GlobalScope.launch(Dispatchers.IO) {//later create activity scope?
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-            if(serverIpLive.value!=ip)webService.reconnect(serverIpLive.value!!)
+            val editor = pref.edit()
+
+            if(serverIpLive.value!=ip){webService.reconnect(serverIpLive.value!!)
 
             //later make only if good connection
-            val editor = pref.edit()
+
             editor.putString("ip", ip)
-            editor.apply()
+            editor.apply()}
 
 
 
