@@ -44,10 +44,10 @@ class fightView: View {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) /**/{
-        //Toast.makeText(activity,"start", Toast.LENGTH_SHORT).show()
+        //
         side_width=((width-height*1.5)/3.0).toInt()
         icon_size=side_width
-
+        Toast.makeText(activity,"start", Toast.LENGTH_SHORT).show()
         if(width== Resources.getSystem().displayMetrics.widthPixels.toInt())Toast.makeText(activity,"perfect", Toast.LENGTH_SHORT).show()
         else Toast.makeText(activity,width.toString()+" not equal "+Resources.getSystem().displayMetrics.widthPixels.toString(), Toast.LENGTH_SHORT).show()
 
@@ -150,7 +150,7 @@ class fightView: View {
                 ics.getInt("x"),ics.getInt("y"),icon_size.toInt(),icon_size.toInt(),0f)
         }
         var health= get.getJSONObject("h").getJSONArray("l")
-        //var for_draw_h= mutableListOf<ForDraw>()//MutableList<ForDraw>
+             //var for_draw_h= mutableListOf<ForDraw>()//MutableList<ForDraw>
         for (i in 0..health.length()-1) {
             var h = health.getJSONObject(i)//maybe "i"
 
@@ -192,7 +192,7 @@ class fightView: View {
 
         //Toast.makeText(activity,"sooooooo", Toast.LENGTH_SHORT).show()
 
-        if(health>=0.5)drawable.setColorFilter(Color.rgb((255-(health)*255).toInt(),255,0),PorterDuff.Mode.MULTIPLY)
+        if(health>=0.5)drawable.setColorFilter(Color.rgb((255-(health*255)).toInt()*2,255,0),PorterDuff.Mode.MULTIPLY)
         //new_view.color="#"+(ff-(health.getInt(i)-health_max.getInt(i)/2)/(health_max.getInt(i)))+"ff00"
         else if(health>0)drawable.setColorFilter(Color.rgb(255,(health*2*255).toInt(),0),PorterDuff.Mode.MULTIPLY)
         else drawable.setColorFilter(Color.rgb(255,0,0),PorterDuff.Mode.MULTIPLY)
