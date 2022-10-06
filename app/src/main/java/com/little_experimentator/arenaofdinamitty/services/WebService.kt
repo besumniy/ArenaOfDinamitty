@@ -57,10 +57,10 @@ class WebService : Service() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     /*suspend*/ fun makeRequest(request:String):JSONObject{
-        val log =
+        /*val log =
             File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/long_message_story.txt")
         if(!log.exists())log.createNewFile()
-        log.appendText(request)
+        log.appendText(request)*/
         dout.writeUTF(request)
         dout.flush()
 
@@ -82,20 +82,20 @@ class WebService : Service() {
     }
 
     suspend fun makeRequestShort(request:String):String{
-        val log =
+        /*val log =
             File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/message_story.txt")
         if(!log.exists())log.createNewFile()
-        log.appendText(request)
+        log.appendText(request)*/
         dout.writeUTF(request)
         dout.flush()
-        log.appendText(request+" sended")
+        //log.appendText(request+" sended")
         var digit = ByteArray(4)
         inputStream.read(digit, 0, 4)
-        log.appendText(digit.toString()+" size")
+        //log.appendText(digit.toString()+" size")
         var l = BigInteger(digit).toInt()
         var answer_b = ByteArray(l);
         inputStream.read(answer_b, 0, l)
-        log.appendText(answer_b.decodeToString()+" get")
+        //log.appendText(answer_b.decodeToString()+" get")
         return answer_b.decodeToString()
     }
 

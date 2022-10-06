@@ -47,9 +47,6 @@ class fightView: View {
         //
         side_width=((width-height*1.5)/3.0).toInt()
         icon_size=side_width
-        Toast.makeText(activity,"start", Toast.LENGTH_SHORT).show()
-        if(width== Resources.getSystem().displayMetrics.widthPixels.toInt())Toast.makeText(activity,"perfect", Toast.LENGTH_SHORT).show()
-        else Toast.makeText(activity,width.toString()+" not equal "+Resources.getSystem().displayMetrics.widthPixels.toString(), Toast.LENGTH_SHORT).show()
 
         //sizeFormed=true
     }

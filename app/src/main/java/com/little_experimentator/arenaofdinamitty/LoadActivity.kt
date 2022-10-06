@@ -42,6 +42,12 @@ class LoadActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_load)
 
+        //Toast.makeText(this, "u open", Toast.LENGTH_SHORT).show()
+        //fix it
+        permissions.getPermissions(this)
+
+        //Toast.makeText(this, "u get permissions;)", Toast.LENGTH_SHORT).show()
+
         load_info = findViewById(R.id.load_info)
         progress_bar = findViewById(R.id.progressBar)
 
@@ -55,12 +61,6 @@ class LoadActivity : AppCompatActivity() {
         load_vm.progressLive.observe(this, Observer {
             progress_bar.progress=it
         })
-
-        Toast.makeText(this, "u open", Toast.LENGTH_SHORT).show()
-        //fix it
-        permissions.getPermissions(this)
-
-        Toast.makeText(this, "u get permissions;)", Toast.LENGTH_SHORT).show()
 
         load_vm.loading()
 
