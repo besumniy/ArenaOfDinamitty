@@ -92,7 +92,8 @@ class FightSettingViewModel:ViewModel() {
                 var message= JSONObject()
                 message.put("c","cancel")
 
-                webService.makeRequestShort(message.toString())
+                //webService.makeRequestShort(message.toString())
+                webService.sendMessage(message.toString())
             }
         }
         else{
@@ -140,7 +141,7 @@ class FightSettingViewModel:ViewModel() {
             var getEnemy=async{webService.makeRequestShort(send.toString())}
             var enemy = getEnemy.await()//webService.makeRequestShort(send.toString())
 
-
+            if(enemy=="cancel") return@launch
             //get info about enemies warrior
             //later update
             //need to add timer and if-else
