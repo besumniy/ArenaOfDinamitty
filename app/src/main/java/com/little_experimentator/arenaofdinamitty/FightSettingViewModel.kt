@@ -44,6 +44,7 @@ class FightSettingViewModel:ViewModel() {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         serverIpLive.value=pref.getString("ip", context.getString(R.string.ip))
         warriors=File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//images//minions").listFiles()
+        name=warriors.get(0).name
         choosenWarriorLive.value=warriors.get(0).path+"/head.png"
         initiateAdapter(context)
 
