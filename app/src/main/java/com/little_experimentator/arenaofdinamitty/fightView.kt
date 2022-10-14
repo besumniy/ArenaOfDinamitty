@@ -135,7 +135,7 @@ class fightView: View {
 
         drawArea(canvas!!,activity.getDrawable(R.drawable.control_fone)!!, width-side_width, 0, side_width, height,0f)
 
-        drawArea(canvas!!,activity.getDrawable(R.drawable.control_reverse)!!, side_width, (height-side_width*2.5).toInt(),side_width,side_width,0f)
+        drawArea(canvas!!,activity.getDrawable(R.drawable.control_reverse)!!, side_width, (height-side_width*3).toInt(),side_width,side_width,0f)
 
 
         var icons= get.getJSONArray("i")
