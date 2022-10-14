@@ -1,8 +1,12 @@
 package com.little_experimentator.arenaofdinamitty.adapters
 
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.graphics.BitmapFactory
 import android.os.Environment
+import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,18 +14,36 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.little_experimentator.arenaofdinamitty.R
+import com.little_experimentator.arenaofdinamitty.services.AudioService
 import java.io.File
 
-class WarriorIconAdapter(val context: Context, val items:Array<File>,function:(name:String, path:String)->Unit): RecyclerView.Adapter<WarriorIconAdapter.ViewHolder>() {
+class WarriorIconAdapter(val context: Context, val items:Array<File>,function:(name:String, path:String,soundId:Int)->Unit): RecyclerView.Adapter<WarriorIconAdapter.ViewHolder>() {
     //var warriors= File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//images//minions").listFiles()
     var function=function
     //val saving_items=items///this is boolshit i will fix it later
 
+    lateinit var AudioServiceConnection: ServiceConnection
+    lateinit var audioService: AudioService
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): WarriorIconAdapter.ViewHolder {
+
+        AudioServiceConnection = object: ServiceConnection {
+            override fun onServiceConnected(name: ComponentName, service: IBinder) {
+                var myBinder: AudioService.AudioServiceBinder =
+                    service as AudioService.AudioServiceBinder
+                audioService = myBinder.getService()
+            }
+
+            override fun onServiceDisconnected(name: ComponentName?) {
+                TODO("Not yet implemented")
+            }
+        }
+        var intent1 = Intent(context, AudioService::class.java)
+        context.bindService(intent1,AudioServiceConnection, Context.BIND_AUTO_CREATE)
+
         return ViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.layout_warrior_icon,parent,false)
@@ -31,6 +53,7 @@ class WarriorIconAdapter(val context: Context, val items:Array<File>,function:(n
     override fun onBindViewHolder(holder: WarriorIconAdapter.ViewHolder, position: Int) {
         var name=items.get(position).name
         var path=items.get(position).path
+        var soundId=audioService.loadSound(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//sounds//minions//"+name+"//congratulations.mp3")
         //name=warriors.get(position).name
 
         holder.itemImage.setImageBitmap(BitmapFactory.decodeFile(path+"/head.png"))
@@ -44,7 +67,7 @@ class WarriorIconAdapter(val context: Context, val items:Array<File>,function:(n
         //new_view.setScaleType(ImageView.ScaleType.FIT_XY)
 
         holder.itemImage.setOnClickListener {
-            function(name,path)
+            function(name,path,soundId)
         }
 
     }

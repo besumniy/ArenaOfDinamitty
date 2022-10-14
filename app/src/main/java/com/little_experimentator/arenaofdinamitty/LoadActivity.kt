@@ -62,6 +62,7 @@ class LoadActivity : AppCompatActivity() {
             progress_bar.progress=it
         })
 
+        load_vm.init_app(this)
         load_vm.loading()
 
     }

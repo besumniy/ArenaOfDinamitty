@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.little_experimentator.arenaofdinamitty.adapters.WarriorIconAdapter
+import com.little_experimentator.arenaofdinamitty.services.AudioService
 import com.little_experimentator.arenaofdinamitty.services.WebService
 //import com.little_experimentator.arenaofdinamitty.services.WebService
 import kotlinx.coroutines.Dispatchers
@@ -34,9 +35,13 @@ class FightSettingViewModel:ViewModel() {
 
     var name=""
     lateinit var warriors:Array<File>
-    lateinit var WebServiceConnection:ServiceConnection
 
+    //services
+    lateinit var WebServiceConnection:ServiceConnection
     lateinit var webService: WebService
+
+    lateinit var AudioServiceConnection:ServiceConnection
+    lateinit var audioService: AudioService
 
     fun init(context: Context){
         clickableLive.value=true
@@ -58,11 +63,24 @@ class FightSettingViewModel:ViewModel() {
                 TODO("Not yet implemented")
             }
         }
+        AudioServiceConnection = object: ServiceConnection {
+            override fun onServiceConnected(name: ComponentName, service: IBinder) {
+                var myBinder: AudioService.AudioServiceBinder =
+                    service as AudioService.AudioServiceBinder
+                audioService = myBinder.getService()
+            }
 
+            override fun onServiceDisconnected(name: ComponentName?) {
+                TODO("Not yet implemented")
+            }
+        }
         //start service
         var intent = Intent(context, WebService::class.java)
         context.startService(intent)
         context.bindService(intent,WebServiceConnection, Context.BIND_AUTO_CREATE)
+
+        var intent1 = Intent(context, AudioService::class.java)
+        context.bindService(intent1,AudioServiceConnection, Context.BIND_AUTO_CREATE)
     }
 
     fun initiateAdapter(context: Context){
@@ -72,8 +90,11 @@ class FightSettingViewModel:ViewModel() {
         )
 
     }
-    fun onClick(name:String,path:String):Unit{
-        if(clickableLive.value!!)changeChoosenWarrior(name,path)
+    fun onClick(name:String,path:String,soundId:Int):Unit{
+        if(clickableLive.value!!){
+            changeChoosenWarrior(name,path)
+            audioService.playSound(soundId)
+        }
     }
 
     fun changeChoosenWarrior(name:String,path:String){

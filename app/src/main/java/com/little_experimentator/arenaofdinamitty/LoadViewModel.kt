@@ -1,9 +1,16 @@
 package com.little_experimentator.arenaofdinamitty
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Environment
+import android.os.IBinder
 import android.preference.PreferenceManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.little_experimentator.arenaofdinamitty.services.AudioService
+import com.little_experimentator.arenaofdinamitty.services.WebService
 import com.little_experimentator.arenaofdinamitty.usecases.Load
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -27,6 +34,27 @@ class LoadViewModel(load:Load): ViewModel() {
 
     //usecases
     val load=load
+
+    //services
+    lateinit var AudioServiceConnection:ServiceConnection
+    lateinit var audioService: AudioService
+
+    fun init_app(context:Context){//oups maybe it have to be in activity?
+        AudioServiceConnection = object: ServiceConnection {
+            override fun onServiceConnected(name: ComponentName, service: IBinder){
+                var myBinder: AudioService.AudioServiceBinder=service as AudioService.AudioServiceBinder
+                audioService=myBinder.getService()
+            }
+
+            override fun onServiceDisconnected(name: ComponentName?) {
+                TODO("Not yet implemented")
+            }
+        }
+        //start service
+        var intent = Intent(context, AudioService::class.java)
+        context.startService(intent)
+        context.bindService(intent,AudioServiceConnection, Context.BIND_AUTO_CREATE)
+    }
 
     fun loading(){
 
