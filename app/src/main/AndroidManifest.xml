@@ -18,6 +18,11 @@
             android:enabled="true"
             android:exported="false"></service>
 
+        <service
+            android:name=".services.AudioService"
+            android:enabled="true"
+            android:exported="false"></service>
+
         <activity
             android:name=".ShopActivity"
             android:screenOrientation="landscape" />

@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.BitmapFactory
+import android.media.AudioManager
+import android.media.SoundPool
 import android.os.Environment
 import android.os.IBinder
 import android.view.LayoutInflater
@@ -17,24 +19,38 @@ import com.little_experimentator.arenaofdinamitty.R
 import com.little_experimentator.arenaofdinamitty.services.AudioService
 import java.io.File
 
-class WarriorIconAdapter(val context: Context, val items:Array<File>,function:(name:String, path:String,soundId:Int)->Unit): RecyclerView.Adapter<WarriorIconAdapter.ViewHolder>() {
+class WarriorIconAdapter(val context: Context,/*val audioService: AudioService,*/val soundPool: SoundPool, val items:Array<File>,function:(name:String, path:String/*,soundId:Int*/)->Unit): RecyclerView.Adapter<WarriorIconAdapter.ViewHolder>() {
     //var warriors= File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//images//minions").listFiles()
     var function=function
+    lateinit var soundpool: SoundPool
+    //var soundIdList=mutableListOf(0)
+    var init_sounds=0
     //val saving_items=items///this is boolshit i will fix it later
 
-    lateinit var AudioServiceConnection: ServiceConnection
-    lateinit var audioService: AudioService
+    //lateinit var AudioServiceConnection: ServiceConnection
+    //lateinit var audioService: AudioService
+    //var audioServiceIsInit=false
+
+
+
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): WarriorIconAdapter.ViewHolder {
 
-        AudioServiceConnection = object: ServiceConnection {
+        /*AudioServiceConnection = object: ServiceConnection {
             override fun onServiceConnected(name: ComponentName, service: IBinder) {
+                val log =
+                    File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log lifecicle.txt")
+                log.appendText("Service try init")
+
                 var myBinder: AudioService.AudioServiceBinder =
                     service as AudioService.AudioServiceBinder
                 audioService = myBinder.getService()
+                audioServiceIsInit=true
+
+                log.appendText("Service")
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
@@ -42,7 +58,12 @@ class WarriorIconAdapter(val context: Context, val items:Array<File>,function:(n
             }
         }
         var intent1 = Intent(context, AudioService::class.java)
-        context.bindService(intent1,AudioServiceConnection, Context.BIND_AUTO_CREATE)
+        context.bindService(intent1,AudioServiceConnection, Context.BIND_AUTO_CREATE)*/
+
+        val log =
+            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log lifecicle.txt")
+        log.appendText("OnCreate")
+        soundpool= soundPool//SoundPool(3, AudioManager.STREAM_MUSIC,0)
 
         return ViewHolder(
             LayoutInflater.from(parent.context)
@@ -51,13 +72,24 @@ class WarriorIconAdapter(val context: Context, val items:Array<File>,function:(n
     }
 
     override fun onBindViewHolder(holder: WarriorIconAdapter.ViewHolder, position: Int) {
+        val log =
+            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log lifecicle.txt")
+        log.appendText("OnBind")
         var name=items.get(position).name
         var path=items.get(position).path
-        var soundId=audioService.loadSound(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//sounds//minions//"+name+"//congratulations.mp3")
+        //while(!audioServiceIsInit){}
+        //var soundId=audioService.loadSound(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//sounds//minions//"+name+"//congratulations.mp3")
         //name=warriors.get(position).name
+
+        //var soundId=(soundpool.load(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//sounds//minions//"+name+"//congratulations.mp3",1))
+        //var soundId=soundIdList[soundIdList.size-1]
+        init_sounds+=1
+        var id=init_sounds
+        //log.appendText("SoundId"+soundId.toString()+"and"+init_sounds.toString())
 
         holder.itemImage.setImageBitmap(BitmapFactory.decodeFile(path+"/head.png"))
         holder.itemName.text=name
+
 
         //var new_view= ImageView(activity)
         //new_view.setScaleType(ImageView.ScaleType.FIT_XY)
@@ -67,8 +99,16 @@ class WarriorIconAdapter(val context: Context, val items:Array<File>,function:(n
         //new_view.setScaleType(ImageView.ScaleType.FIT_XY)
 
         holder.itemImage.setOnClickListener {
-            function(name,path,soundId)
+            function(name,path/*,soundId*/)
+            //var soundId=soundpool.load(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//sounds//minions//"+name+"//congratulations.mp3",1)
+            //log.appendText(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//sounds//minions//"+name+"//congratulations.mp3")
+            //log.appendText(soundId.toString())
+            soundpool.play(id, 1f,1f,1,0,1f)
+            //log.appendText("WORK FUCK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            //soundpool.unload(soundId)
         }
+
+        log.appendText("OnBinded completed")
 
     }
 
@@ -82,8 +122,17 @@ class WarriorIconAdapter(val context: Context, val items:Array<File>,function:(n
 
         init{
             //super(itemView)
+            val log =
+                File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log lifecicle.txt")
+            log.appendText("init")
+
             itemImage=itemView.findViewById(R.id.image)
             itemName=itemView.findViewById(R.id.name)
+
+            //var soundId=(soundpool.load(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//sounds//minions//"+itemName.text+"//congratulations.mp3",1))
+            //log.appendText(itemName.text+soundId.toString())
+            //itemName.text="lol"
+            //suka
         }
     }
 

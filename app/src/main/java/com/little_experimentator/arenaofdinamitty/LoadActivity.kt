@@ -61,8 +61,11 @@ class LoadActivity : AppCompatActivity() {
         load_vm.progressLive.observe(this, Observer {
             progress_bar.progress=it
         })
-
+        val log =
+            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log lifecicle.txt")
+        log.appendText("welcome")
         load_vm.init_app(this)
+        log.appendText("theretext")
         load_vm.loading()
 
     }

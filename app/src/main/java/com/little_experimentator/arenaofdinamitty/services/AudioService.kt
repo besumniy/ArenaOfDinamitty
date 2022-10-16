@@ -5,7 +5,10 @@ import android.content.Intent
 import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Binder
+import android.os.Environment
 import android.os.IBinder
+import java.io.File
+import com.little_experimentator.arenaofdinamitty.R
 
 class AudioService: Service() {
     var binder= AudioServiceBinder()
@@ -13,8 +16,21 @@ class AudioService: Service() {
     lateinit var soundpool: SoundPool
 
     override fun onCreate() {
-        super.onCreate()
+        //super.onCreate()
         soundpool= SoundPool(3, AudioManager.STREAM_MUSIC,0)
+        val log =
+            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log lifecicle.txt")
+        log.appendText("SoundPool")
+    }
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        return super.onStartCommand(intent, flags, startId)
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        //close socket
+        val log =
+            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log lifecicle.txt")
+        log.appendText("OnDestroy")
     }
 
     fun loadSound(path:String):Int{

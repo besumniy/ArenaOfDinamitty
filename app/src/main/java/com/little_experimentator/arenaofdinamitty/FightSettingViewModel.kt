@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.res.Resources
+import android.media.AudioManager
+import android.media.SoundPool
 import android.os.Environment
 import android.os.IBinder
 import android.preference.PreferenceManager
@@ -40,18 +42,40 @@ class FightSettingViewModel:ViewModel() {
     lateinit var WebServiceConnection:ServiceConnection
     lateinit var webService: WebService
 
-    lateinit var AudioServiceConnection:ServiceConnection
+    //lateinit var AudioServiceConnection:ServiceConnection
     lateinit var audioService: AudioService
+    var audioServiceIsInit=false
+    lateinit var soundpool: SoundPool
+
+    /*var AudioServiceConnection = object: ServiceConnection {
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            val log =
+                File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log lifecicle.txt")
+            log.appendText("Service try init")
+            var myBinder: AudioService.AudioServiceBinder =
+                service as AudioService.AudioServiceBinder
+            audioService = myBinder.getService()
+            audioServiceIsInit=true
+            log.appendText("Service")
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            TODO("Not yet implemented")
+        }
+    }*/
 
     fun init(context: Context){
         clickableLive.value=true
         buttonTextLive.value="FIND VICTIM"
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         serverIpLive.value=pref.getString("ip", context.getString(R.string.ip))
+        soundpool= SoundPool(3, AudioManager.STREAM_MUSIC,0)
         warriors=File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//images//minions").listFiles()
         name=warriors.get(0).name
         choosenWarriorLive.value=warriors.get(0).path+"/head.png"
-        initiateAdapter(context)
+        //initiateAdapter(context)
+
+
 
         WebServiceConnection = object:ServiceConnection{
             override fun onServiceConnected(name: ComponentName, service: IBinder){
@@ -63,37 +87,44 @@ class FightSettingViewModel:ViewModel() {
                 TODO("Not yet implemented")
             }
         }
-        AudioServiceConnection = object: ServiceConnection {
-            override fun onServiceConnected(name: ComponentName, service: IBinder) {
-                var myBinder: AudioService.AudioServiceBinder =
-                    service as AudioService.AudioServiceBinder
-                audioService = myBinder.getService()
-            }
 
-            override fun onServiceDisconnected(name: ComponentName?) {
-                TODO("Not yet implemented")
-            }
-        }
         //start service
+        /*var intent1 = Intent(context, AudioService::class.java)
+        context.startService(intent1)
+        context.bindService(intent1,AudioServiceConnection, Context.BIND_AUTO_CREATE)*/
+
+        //while(!audioServiceIsInit){}
+        initiateSound(warriors)
+        initiateAdapter(context)
+
         var intent = Intent(context, WebService::class.java)
         context.startService(intent)
         context.bindService(intent,WebServiceConnection, Context.BIND_AUTO_CREATE)
 
-        var intent1 = Intent(context, AudioService::class.java)
-        context.bindService(intent1,AudioServiceConnection, Context.BIND_AUTO_CREATE)
     }
 
     fun initiateAdapter(context: Context){
+
         adapterLive.value=WarriorIconAdapter(context,
+            //audioService,
+            soundpool,
             warriors,
             ::onClick
         )
 
     }
-    fun onClick(name:String,path:String,soundId:Int):Unit{
+    fun initiateSound(warriors:Array<File>){
+        val log =
+            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log lifecicle.txt")
+        for(warrior in warriors){
+            var soundId=(soundpool.load(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//sounds//minions//"+warrior.name+"//congratulations.mp3",1))
+            log.appendText(warrior.name+soundId.toString())
+        }
+    }
+    fun onClick(name:String,path:String/*,soundId:Int*/):Unit{
         if(clickableLive.value!!){
             changeChoosenWarrior(name,path)
-            audioService.playSound(soundId)
+            //audioService.playSound(soundId)
         }
     }
 
