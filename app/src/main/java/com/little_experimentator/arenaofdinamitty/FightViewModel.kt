@@ -180,9 +180,9 @@ class FightViewModel: ViewModel() {
 
     }
     @RequiresApi(Build.VERSION_CODES.KITKAT)
-    fun onClick(event: MotionEvent?){
+    fun onClick(event: MotionEvent?,game_screen:fightView){
         var x= event?.getX(event.actionIndex)
-        var y= Resources.getSystem().displayMetrics.heightPixels-event?.getY(event.actionIndex)!!
+        var y= /*Resources.getSystem().displayMetrics.heightPixels*/game_screen.height-event?.getY(event.actionIndex)!!
         var id=event.getPointerId(event.actionIndex)
         //var id=event?.getPointerId()
         when(event?.action){

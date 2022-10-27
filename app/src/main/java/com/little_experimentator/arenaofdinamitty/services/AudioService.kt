@@ -18,9 +18,6 @@ class AudioService: Service() {
     override fun onCreate() {
         //super.onCreate()
         soundpool= SoundPool(3, AudioManager.STREAM_MUSIC,0)
-        val log =
-            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log lifecicle.txt")
-        log.appendText("SoundPool")
     }
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return super.onStartCommand(intent, flags, startId)
@@ -28,9 +25,6 @@ class AudioService: Service() {
     override fun onDestroy() {
         super.onDestroy()
         //close socket
-        val log =
-            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log lifecicle.txt")
-        log.appendText("OnDestroy")
     }
 
     fun loadSound(path:String):Int{

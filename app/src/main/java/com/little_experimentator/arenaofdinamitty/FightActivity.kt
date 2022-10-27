@@ -74,7 +74,7 @@ class FightActivity: AppCompatActivity() {
     override fun onTouchEvent(event: MotionEvent?): Boolean{
         super.onTouchEvent(event)
         //Toast.makeText(this,game_screen.side_width.toString(), Toast.LENGTH_SHORT).show()
-        fight_vm.onClick(event)
+        fight_vm.onClick(event,game_screen)
         //Toast.makeText(this,fight_vm.touches.toString(), Toast.LENGTH_SHORT).show()
         //Toast.makeText(this,game_screen.height.toString(), Toast.LENGTH_SHORT).show()
         //Toast.makeText(this,game_screen.width.toString(), Toast.LENGTH_SHORT).show()

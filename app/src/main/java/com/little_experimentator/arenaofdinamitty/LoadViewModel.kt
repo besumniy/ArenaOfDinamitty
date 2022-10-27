@@ -40,14 +40,8 @@ class LoadViewModel(load:Load): ViewModel() {
     lateinit var audioService: AudioService
 
     fun init_app(context:Context){//oups maybe it have to be in activity?
-        val log =
-            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log lifecicle.txt")
-        log.appendText("AAAAAAAAAAAAAAAAAAAAAAA")
-
-
         AudioServiceConnection = object: ServiceConnection {
             override fun onServiceConnected(name: ComponentName, service: IBinder){
-                log.appendText("so what the problem")
                 var myBinder: AudioService.AudioServiceBinder=service as AudioService.AudioServiceBinder
                 audioService=myBinder.getService()
             }

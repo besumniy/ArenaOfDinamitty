@@ -60,9 +60,6 @@ class WarriorIconAdapter(val context: Context,/*val audioService: AudioService,*
         var intent1 = Intent(context, AudioService::class.java)
         context.bindService(intent1,AudioServiceConnection, Context.BIND_AUTO_CREATE)*/
 
-        val log =
-            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log lifecicle.txt")
-        log.appendText("OnCreate")
         soundpool= soundPool//SoundPool(3, AudioManager.STREAM_MUSIC,0)
 
         return ViewHolder(
@@ -72,9 +69,6 @@ class WarriorIconAdapter(val context: Context,/*val audioService: AudioService,*
     }
 
     override fun onBindViewHolder(holder: WarriorIconAdapter.ViewHolder, position: Int) {
-        val log =
-            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log lifecicle.txt")
-        log.appendText("OnBind")
         var name=items.get(position).name
         var path=items.get(position).path
         //while(!audioServiceIsInit){}
@@ -101,15 +95,9 @@ class WarriorIconAdapter(val context: Context,/*val audioService: AudioService,*
         holder.itemImage.setOnClickListener {
             function(name,path/*,soundId*/)
             //var soundId=soundpool.load(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//sounds//minions//"+name+"//congratulations.mp3",1)
-            //log.appendText(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//sounds//minions//"+name+"//congratulations.mp3")
-            //log.appendText(soundId.toString())
             soundpool.play(id, 1f,1f,1,0,1f)
-            //log.appendText("WORK FUCK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             //soundpool.unload(soundId)
         }
-
-        log.appendText("OnBinded completed")
-
     }
 
     override fun getItemCount(): Int {
@@ -122,17 +110,10 @@ class WarriorIconAdapter(val context: Context,/*val audioService: AudioService,*
 
         init{
             //super(itemView)
-            val log =
-                File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log lifecicle.txt")
-            log.appendText("init")
 
             itemImage=itemView.findViewById(R.id.image)
             itemName=itemView.findViewById(R.id.name)
 
-            //var soundId=(soundpool.load(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//sounds//minions//"+itemName.text+"//congratulations.mp3",1))
-            //log.appendText(itemName.text+soundId.toString())
-            //itemName.text="lol"
-            //suka
         }
     }
 

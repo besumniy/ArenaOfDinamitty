@@ -114,11 +114,8 @@ class FightSettingViewModel:ViewModel() {
 
     }
     fun initiateSound(warriors:Array<File>){
-        val log =
-            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/sources/log lifecicle.txt")
         for(warrior in warriors){
             var soundId=(soundpool.load(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path+"//sources//sounds//minions//"+warrior.name+"//congratulations.mp3",1))
-            log.appendText(warrior.name+soundId.toString())
         }
     }
     fun onClick(name:String,path:String/*,soundId:Int*/):Unit{
