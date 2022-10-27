@@ -194,7 +194,23 @@ class FightViewModel: ViewModel() {
                 touch_down.put(action)//
                 touch.put(action)
             }
+            MotionEvent.ACTION_POINTER_DOWN->{
+                var action=JSONObject()
+                action.put("x",x)
+                action.put("y",y)
+                action.put("id",id)
+                touch_down.put(action)//
+                touch.put(action)
+            }
             MotionEvent.ACTION_UP->{
+                var action=JSONObject()
+                action.put("x",x)
+                action.put("y",y)
+                action.put("id",id)
+                touch_up.put(action)//
+                for(i in 0..touch.length()-1)if(touch.getJSONObject(i).get("id")==id ){touch.remove(i);    break}
+            }
+            MotionEvent.ACTION_POINTER_UP->{
                 var action=JSONObject()
                 action.put("x",x)
                 action.put("y",y)
