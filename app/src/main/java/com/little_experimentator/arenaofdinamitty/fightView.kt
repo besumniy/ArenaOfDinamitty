@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.shapes.Shape
 import android.os.Build
 import android.os.Environment
 import android.util.AttributeSet
@@ -128,6 +129,18 @@ class fightView: View {
                 w.getJSONObject("c").getDouble("r").toFloat()
             )
         }
+            
+            var darks= get.getJSONArray("d")
+            //var for_draw_ic= mutableListOf<ForDraw>()//MutableList<ForDraw>
+            for (i in 0..darks.length()-1) {
+                var dark = darks.getJSONObject(i)
+                drawDarkness(canvas!!,
+                    dark.getDouble("x").toFloat(),dark.getDouble("y").toFloat(),
+                    dark.getDouble("x1").toFloat(),dark.getDouble("y1").toFloat(),
+                    dark.getDouble("x2").toFloat(),dark.getDouble("y2").toFloat(),
+                    dark.getDouble("x3").toFloat(),dark.getDouble("y3").toFloat()
+                )
+            }
 
         drawArea(canvas!!,activity.getDrawable(R.drawable.control_fone)!!, 0, 0, side_width*2, height,0f)
 
@@ -201,6 +214,29 @@ class fightView: View {
         canvas.save()
         canvas.rotate(i,x+w/2f,y+h/2f)
         drawable.draw(canvas)
+        canvas.restore()
+    }
+    fun drawDarkness(canvas: Canvas, x:Float,y:Float,x1:Float,y1:Float,x2:Float,y2:Float,x3:Float,y3:Float/*drawable: Drawable, x:Int,y:Int*/){
+        //var shape= Shape()
+        //drawable.setColorFilter(Color.rgb(0,0,0),PorterDuff.Mode.MULTIPLY)
+
+        //drawable.setBounds(Quad(0,0,5,5,10,10))
+        var path=Path()
+        path.reset()
+        path.moveTo(x,y)
+        path.lineTo(x1,y1)
+        path.lineTo(x2,y2)
+        path.lineTo(x3,y3)
+        path.lineTo(x,y)
+
+        var paint=Paint()
+        paint.setColor(Color.BLACK)
+        //paint.style=Style.FILL
+
+
+        canvas.drawPath(path,paint)
+        canvas.save()
+        //drawable.draw(canvas)
         canvas.restore()
     }
 }

@@ -184,8 +184,9 @@ class FightViewModel: ViewModel() {
         var x= event?.getX(event.actionIndex)
         var y= /*Resources.getSystem().displayMetrics.heightPixels*/game_screen.height-event?.getY(event.actionIndex)!!
         var id=event.getPointerId(event.actionIndex)
+        //var mask=event?.actionMasked
         //var id=event?.getPointerId()
-        when(event?.action){
+        when(event?.actionMasked){
             MotionEvent.ACTION_DOWN->{
                 var action=JSONObject()
                 action.put("x",x)
