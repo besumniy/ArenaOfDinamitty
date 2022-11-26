@@ -129,7 +129,7 @@ class fightView: View {
                 w.getJSONObject("c").getDouble("r").toFloat()
             )
         }
-            
+
             var darks= get.getJSONArray("d")
             //var for_draw_ic= mutableListOf<ForDraw>()//MutableList<ForDraw>
             for (i in 0..darks.length()-1) {

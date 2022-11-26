@@ -108,7 +108,7 @@ class LoadViewModel(load:Load): ViewModel() {
             progressLive.value=l
         }
 
-        progressStringLive.value="Download files..."
+        progressStringLive.value="Download files... wait"
         progressMaxLive.value=file.readLines().size//later check it
         progressLive.value=file.readLines().size
 

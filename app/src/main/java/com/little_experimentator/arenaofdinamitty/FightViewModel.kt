@@ -128,19 +128,31 @@ class FightViewModel: ViewModel() {
                     var was_touch_down=false
                     var was_touch_up=false
 
-                        if(touch_down.length()!=0)was_touch_down=true
-                        if(touch_up.length()!=0)was_touch_up=true
-                        val get=webService.makeRequest(touches.toString())
+                    if(touch_down.length()!=0)was_touch_down=true
+                    if(touch_up.length()!=0)was_touch_up=true
+                    val get=webService.makeRequest(touches.toString())
 
                     if(was_touch_down)touch_down = JSONArray()
                     if(was_touch_up)touch_up = JSONArray()
+
+
+                    if(get!!.has("c")){
+                        if(get!!.getString("c")=="exit"){
+                            fight==false
+                            webService.sendMessage("done")
+                            break
+                        }
+                    }
 
                     GlobalScope.launch(Dispatchers.Main){
 
                                 getLive.value = get
 
                                 if(getLive.value!!.has("c")){
-                                    if(getLive.value!!.getString("c")=="exit")fight==false
+                                    if(getLive.value!!.getString("c")=="exit"){
+                                        fight==false
+                                        webService.sendMessage("done")
+                                    }
                                 }
                                 else{
 

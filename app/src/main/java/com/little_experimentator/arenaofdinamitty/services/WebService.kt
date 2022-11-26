@@ -100,7 +100,7 @@ class WebService : Service() {
     }
 
     suspend fun sendMessage(request:String){
-        dout.writeUTF(request.toString())
+        dout.writeUTF(request)
         dout.flush()
     }
 
